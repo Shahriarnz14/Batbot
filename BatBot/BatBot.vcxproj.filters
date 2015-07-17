@@ -16,6 +16,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BatBot.ino" />
+    <None Include="IRfollowing.ino" />
+    <None Include="SamplePark.ino" />
+    <None Include="TapeFollowing.ino" />
+    <None Include="0BatBotMenu.ino" />
+    <None Include="0PinsAndConstants.ino" />
+    <None Include="1DebuggingMode.ino" />
+    <None Include="Arm0.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.BatBot.vsarduino.h">

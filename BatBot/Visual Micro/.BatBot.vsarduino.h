@@ -83,4 +83,11 @@ extern "C" void __cxa_pure_virtual() {;}
 #define portInputRegister(P)
 #define portModeRegister(P)
 #include <BatBot.ino>
+#include <0BatBotMenu.ino>
+#include <0PinsAndConstants.ino>
+#include <1DebuggingMode.ino>
+#include <Arm0.ino>
+#include <IRfollowing.ino>
+#include <SamplePark.ino>
+#include <TapeFollowing.ino>
 #endif

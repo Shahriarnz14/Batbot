@@ -45,7 +45,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Shahriar\Documents\Arduino\hardware\TINAH\avr\cores\arduino;C:\Users\Shahriar\Documents\Arduino\hardware\TINAH\avr\variants\TINAHvariant;C:\Users\Shahriar\Documents\Arduino\BatBot\BatBot;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Users\Shahriar\Documents\Arduino\hardware\TINAH\avr\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\Shahriar\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;C:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;C:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Shahriar\Documents\Arduino\hardware\TINAH\avr\cores\arduino;C:\Users\Shahriar\Documents\Arduino\hardware\TINAH\avr\variants\TINAHvariant;C:\Users\Shahriar\Documents\Arduino\BatBot\BatBot;C:\Program Files (x86)\Arduino\libraries\LiquidCrystal\src;C:\Program Files (x86)\Arduino\libraries\LiquidCrystal\src\utility;C:\Users\Shahriar\Documents\Arduino\libraries\phys253TINAHArduino;C:\Users\Shahriar\Documents\Arduino\libraries\phys253TINAHArduino\utility;C:\Program Files (x86)\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Users\Shahriar\Documents\Arduino\hardware\TINAH\avr\libraries;C:\Program Files (x86)\Visual Micro\Visual Micro for Arduino\Micro Platforms\default\debuggers;C:\Users\Shahriar\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\tools\avr/avr/include/;C:\Program Files (x86)\Arduino\hardware\tools\avr//avr/include/avr/;C:\Program Files (x86)\Arduino\hardware\tools\avr/lib\gcc\avr\4.8.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>C:\Users\Shahriar\Documents\Arduino\BatBot\BatBot\Visual Micro\.BatBot.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <IgnoreStandardIncludePath>true</IgnoreStandardIncludePath>
       <PreprocessorDefinitions>__AVR_ATmega128__;F_CPU=16000000L;ARDUINO=164;ARDUINO_AVR_TINAH;ARDUINO_ARCH_AVR;__cplusplus;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -69,9 +69,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="0BatBotMenu.ino" />
+    <None Include="0PinsAndConstants.ino" />
+    <None Include="1DebuggingMode.ino" />
+    <None Include="Arm0.ino" />
     <None Include="BatBot.ino">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="IRfollowing.ino" />
+    <None Include="SamplePark.ino" />
+    <None Include="TapeFollowing.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.BatBot.vsarduino.h" />
