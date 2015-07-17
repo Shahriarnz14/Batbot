@@ -50,17 +50,20 @@ void goFastToAngles(float baseAngle, float shoulderAngle, float elbowAngle)
   if (175. - (shoulderAngle + elbowAngle) < 0) {
     return;
   }
+  if (shoulderAngle > SHOULDER_MAX_ANGLE || elbowAngle > ELBOW_MAX_ANGLE) {
+    return; 
+  }
 
   if (baseAngle != a1) {
     RCServo0.write(angleConv(baseAngle));
     a1 = baseAngle;
   }
   if (shoulderAngle != a2) {
-    RCServo1.write(angleConv(shoulderAngle));
+    RCServo1.write(angleConv(shoulderAngle+SHOULDER_OFFSET));
     a2 = shoulderAngle;
   }
   if (elbowAngle != a3) {
-    RCServo2.write(angleConv(elbowAngle));
+    RCServo2.write(angleConv(elbowAngle-ELBOW_OFFSET));
     a3 = elbowAngle;
   }
 }
