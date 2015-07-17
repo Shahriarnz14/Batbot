@@ -1,5 +1,5 @@
 #define PI 3.14159
-#define SERVO_RANGE 260
+#define SERVO_RANGE 240
 
 #define BASE_HEIGHT 9.5
 #define SIDE_LENGTH 13.2
