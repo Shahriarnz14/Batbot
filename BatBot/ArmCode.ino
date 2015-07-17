@@ -12,6 +12,12 @@
 #define HEIGHT_START (20)// + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
+#define ELBOW_OFFSET 40 //angle between elbow physical and calculation 0
+#define SHOULDER_OFFSET 0 //angle between shoulder physical and calculation 0
+
+#define ELBOW_MAX_ANGLE 90
+#define SHOULDER_MAX_ANGLE 180
+
 double a1;
 double a2;
 double a3;
