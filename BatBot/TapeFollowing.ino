@@ -32,8 +32,8 @@ void tapeFollow3QRD()
 	if (center > THRESH)
 	{
 		error = 0;
-		if ((right > THRESH) && (left < THRESH)) error--;
-		if ((right < THRESH) && (left > THRESH)) error++;
+		if ((right > THRESH) && (left < THRESH_L)) error--;
+		if ((right < THRESH) && (left > THRESH_L)) error++;
 	}
 	else
 	{
@@ -112,15 +112,15 @@ void tapeFollow2QRD(volatile int16_t *flagOn)
 
 		int error = 0;
 
-		if ((left>THRESH) && (right>THRESH)) error = 0;
-		if ((left>THRESH) && (right<THRESH)) error = -1;
-		if ((left<THRESH) && (right>THRESH)) error = +1;
+		if ((left>400) && (right>300)) error = 0;
+		if ((left>400) && (right<300)) error = -1;
+		if ((left<400) && (right>300)) error = +1;
 
 		// History for both tapes off the tape
-		if ((left<THRESH) && (right<THRESH))
+		if ((left<400) && (right<300))
 		{
-			if (lerr>0) error = 5;
-			else error = -5;
+			if (lerr>0) error = 3;
+			else error = -3;
 		}
 
 

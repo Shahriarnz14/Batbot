@@ -18,3 +18,4 @@ uint16_t RIGHT_MOTOR = 1;
 // Tape Following:
 
 uint16_t THRESH = menuItems[6].Value;
+uint16_t THRESH_L = THRESH + 10;

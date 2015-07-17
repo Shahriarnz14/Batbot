@@ -20,7 +20,14 @@ ISR(INT1_vect)
 		pressed &= !digitalRead(1);
 	}
 
-	if (pressed) { motor.stop_all(); delay((2000)); }
+	if (pressed) 
+	{ 
+		motor.stop_all();
+		for (int j = 0; j < 50; j++)
+		{
+
+		}
+	}
 	//tapeFlag1; 
 };
 
@@ -64,7 +71,7 @@ void setup()
 	LCD.setCursor(0, 1);	LCD.print("AShLAW Product");
 	delay(1000);
 	enableExternalInterrupt(INT0, FALLING);
-	enableExternalInterrupt(INT1, RISING);
+	enableExternalInterrupt(INT1, FALLING);
 	if (debugMode > 0) speedTest();
 }
 
