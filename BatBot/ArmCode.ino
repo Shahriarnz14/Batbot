@@ -1,21 +1,22 @@
 #define PI 3.14159
-#define SERVO_RANGE 240
+#define SERVO_RANGE 229 //do not touch, calibration for new servo
 
-#define BASE_HEIGHT 9.5
-#define SIDE_LENGTH 13.2
-#define FRONT_LENGTH 0
-#define SIDE_HEIGHT 5
-#define DOLL_HEIGHT 14.242
-#define CHASSIS_HEIGHT 10.5
+//origin is determined to be between the two servos
+#define BASE_HEIGHT 9.5 //base of the arm (Will's mulitple layers)
+#define SIDE_LENGTH 13.2 //length from middle to side of the robot
+#define FRONT_LENGTH 0 //length from base of arm to front of robot
+#define SIDE_HEIGHT 5 //height of the side walls of the robot
+#define DOLL_HEIGHT 14.242 
+#define CHASSIS_HEIGHT 10.5 //height from ground to chassis
 
 #define RADIUS_START 20
 #define HEIGHT_START (20)// + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
-#define ELBOW_OFFSET 40 //angle between elbow physical and calculation 0
+#define ELBOW_OFFSET 50 //angle between elbow physical and calculation 0
 #define SHOULDER_OFFSET 0 //angle between shoulder physical and calculation 0
 
-#define ELBOW_MAX_ANGLE 90
+#define ELBOW_MAX_ANGLE 180
 #define SHOULDER_MAX_ANGLE 180
 
 double a1;
@@ -25,8 +26,7 @@ double a3;
 void coorMap(float r, float z, float baseAngle, float &shoulderAngle, float &elbowAngle)
 {
   double barLength = 8.0 * 2.54;
-  //float heightOfBase = 0 + 95.7; // add in height of base
-  //z -= (BASE_HEIGHT + CHASSIS_HEIGHT);
+  z -= (BASE_HEIGHT + CHASSIS_HEIGHT);
 
   double R = sqrt(pow(r, 2) + pow(z, 2));
   double beta = atan(z / r);
@@ -35,7 +35,6 @@ void coorMap(float r, float z, float baseAngle, float &shoulderAngle, float &elb
 
   shoulderAngle = (beta + alpha) * 180.0 / PI;
   elbowAngle = (180.0 - gamma - shoulderAngle) + 18.0; //40 is the offset of elbow, defined 0 is parallel to ground
-  //return true
 }
 
 void goFastTo(float r, float z, float baseAngle)
