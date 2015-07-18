@@ -14,7 +14,7 @@
 #define BASE_START 90
 
 #define ELBOW_OFFSET 50 //angle between elbow physical and calculation 0
-#define SHOULDER_OFFSET 0 //angle between shoulder physical and calculation 0
+#define SHOULDER_OFFSET 10 //angle between shoulder physical and calculation 0
 
 #define ELBOW_MAX_ANGLE 180
 #define SHOULDER_MAX_ANGLE 180
@@ -23,7 +23,7 @@ double a1;
 double a2;
 double a3;
 
-void coorMap(float r, float z, float baseAngle, float &shoulderAngle, float &elbowAngle)
+void coorMap(float r, float z, int baseAngle, int &shoulderAngle, int &elbowAngle)
 {
   double barLength = 8.0 * 2.54;
   z -= (BASE_HEIGHT + CHASSIS_HEIGHT);
@@ -33,36 +33,36 @@ void coorMap(float r, float z, float baseAngle, float &shoulderAngle, float &elb
   double alpha = acos(R / (2 * barLength));
   double gamma = acos(1 - (pow(R, 2) / (2 * pow(barLength, 2)))) * (180.0 / PI);
 
-  shoulderAngle = (beta + alpha) * 180.0 / PI;
-  elbowAngle = (180.0 - gamma - shoulderAngle) + 18.0; //40 is the offset of elbow, defined 0 is parallel to ground
+  shoulderAngle = (int) (beta + alpha) * 180.0 / PI;
+  elbowAngle = (int) (180.0 - gamma - shoulderAngle);
 }
 
-void goFastTo(float r, float z, float baseAngle)
+void goFastTo(float r, float z, int baseAngle)
 {
-  float shoulderAngle, elbowAngle;
+  int shoulderAngle, elbowAngle;
   coorMap(r, z, baseAngle, shoulderAngle, elbowAngle);
   goFastToAngles(baseAngle, shoulderAngle, elbowAngle);
 }
 
-void goFastToAngles(float baseAngle, float shoulderAngle, float elbowAngle)
+void goFastToAngles(int baseAngle, int shoulderAngle, int elbowAngle)
 {
   if (175. - (shoulderAngle + elbowAngle) < 0) {
     return;
   }
-  if (shoulderAngle > SHOULDER_MAX_ANGLE || elbowAngle > ELBOW_MAX_ANGLE) {
-    return; 
+  if ((shoulderAngle) > SHOULDER_MAX_ANGLE || (elbowAngle + ELBOW_OFFSET) > ELBOW_MAX_ANGLE) {
+    return;
   }
 
   if (baseAngle != a1) {
-    RCServo0.write(angleConv(baseAngle));
+    RCServo0.write(baseAngle); //no conversion needed as 180 degree servo is used at base
     a1 = baseAngle;
   }
   if (shoulderAngle != a2) {
-    RCServo1.write(angleConv(shoulderAngle+SHOULDER_OFFSET));
+    RCServo1.write(angleConv(shoulderAngle - SHOULDER_OFFSET));
     a2 = shoulderAngle;
   }
   if (elbowAngle != a3) {
-    RCServo2.write(angleConv(elbowAngle-ELBOW_OFFSET));
+    RCServo2.write(angleConv(elbowAngle + ELBOW_OFFSET));
     a3 = elbowAngle;
   }
 }
@@ -79,20 +79,20 @@ float goLinear(int currentStep, int maxSteps) {
   return ((double) currentStep / (double)maxSteps);
 }
 
-void goSmoothTo(float r, float z, float b, float t)
+void goSmoothTo(float r, float z, int b, float t)
 {
 
-  float a1final = b;
-  float a2final, a3final;
+  int a1final = b;
+  int a2final, a3final;
   coorMap(r, z, b, a2final, a3final); //sets a2final, a3final
 
-  float a1step = a1;
-  float a2step = a2;
-  float a3step = a3;
+  int a1step = a1;
+  int a2step = a2;
+  int a3step = a3;
 
-  float rDiff = a1final - a1;
-  float zDiff = a2final - a2;
-  float bDiff = a3final - a3;
+  int rDiff = a1final - a1;
+  int zDiff = a2final - a2;
+  int bDiff = a3final - a3;
 
   //finds the servo that needs to turn the most, the number of degrees will be the number of steps
   int steps = abs(rDiff);
@@ -167,8 +167,8 @@ void reset() {
   goFastToAngles(90,0,0);
 }
 
-float angleConv(float baseAngle){
-  float newAngle;
+int angleConv(int baseAngle){
+  int newAngle;
   newAngle = baseAngle*180.0/SERVO_RANGE;
   return newAngle;
 }
