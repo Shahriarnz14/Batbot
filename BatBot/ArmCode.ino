@@ -12,6 +12,12 @@
 #define HEIGHT_START (20)// + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
+#define ELBOW_OFFSET 40 //angle between elbow physical and calculation 0
+#define SHOULDER_OFFSET 0 //angle between shoulder physical and calculation 0
+
+#define ELBOW_MAX_ANGLE 90
+#define SHOULDER_MAX_ANGLE 180
+
 double a1;
 double a2;
 double a3;
@@ -44,17 +50,20 @@ void goFastToAngles(float baseAngle, float shoulderAngle, float elbowAngle)
   if (175. - (shoulderAngle + elbowAngle) < 0) {
     return;
   }
+  if (shoulderAngle > SHOULDER_MAX_ANGLE || elbowAngle > ELBOW_MAX_ANGLE) {
+    return; 
+  }
 
   if (baseAngle != a1) {
     RCServo0.write(angleConv(baseAngle));
     a1 = baseAngle;
   }
   if (shoulderAngle != a2) {
-    RCServo1.write(angleConv(shoulderAngle));
+    RCServo1.write(angleConv(shoulderAngle+SHOULDER_OFFSET));
     a2 = shoulderAngle;
   }
   if (elbowAngle != a3) {
-    RCServo2.write(angleConv(elbowAngle));
+    RCServo2.write(angleConv(elbowAngle-ELBOW_OFFSET));
     a3 = elbowAngle;
   }
 }
@@ -150,6 +159,13 @@ void dance ()
       i = 0;
     }
   }
+}
+
+void reset() {
+  LCD.print("Set both arms");
+  LCD.setCursor(0,1);
+  LCD.print("to lowest position");
+  goFastToAngles(90,0,0);
 }
 
 float angleConv(float baseAngle){
