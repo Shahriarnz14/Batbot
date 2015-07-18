@@ -101,8 +101,8 @@ const int INTEGRAL_UPDATE_DELAY_MS = 5;
 void tapeFollow2QRD(volatile int16_t *flagOn)
 {
 	//int thresh = 400;
-	//while (*flagOn)
-	while (true)
+	while (*flagOn)
+	//while (true)
 	{
 		// variables
 		float left = analogRead(0);
@@ -150,8 +150,8 @@ void tapeFollow2QRD(volatile int16_t *flagOn)
 
 		if (c == 100)
 		{
-			kp = knob(6) / 1023.0 * 200;
-			kd = knob(7) / 1023.0 * 200;
+			//kp = knob(6) / 1023.0 * 200;
+			//kd = knob(7) / 1023.0 * 200;
 
 			LCD.clear();
 			LCD.setCursor(0, 0);
@@ -185,7 +185,12 @@ void tapeFollow2QRD(volatile int16_t *flagOn)
 		lerr = error;
 	}
 
-	//motor.stop_all();
+	motor.stop_all();
+	LCD.clear(); LCD.home();
 	//delay(5000);
+	while (true)
+	{
+		LCD.print("GoodBye!");
+	}
 }
 

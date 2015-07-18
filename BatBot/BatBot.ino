@@ -11,7 +11,7 @@
 
 volatile int16_t tapeFlag1 = 4;
 
-ISR(INT0_vect) { LCD.clear(); LCD.home(); LCD.print("All Motors Stopping:"); motor.stop_all(); while (!(startbutton())){} };
+ISR(INT0_vect) { LCD.clear(); LCD.home(); LCD.print("All Motors Stopping:"); motor.stop_all(); while (!(startbutton())){ LCD.setCursor(0, 1); LCD.print(digitalRead(1)); } };
 ISR(INT1_vect)
 {
 	bool pressed = 1;
@@ -19,15 +19,16 @@ ISR(INT1_vect)
 	{
 		pressed &= !digitalRead(1);
 	}
-
+	
 	if (pressed) 
 	{ 
-		motor.stop_all();
-		for (int j = 0; j < 50; j++)
-		{
+		//motor.stop_all();
 
-		}
+		delay(5000);
+
+		if (tapeFlag1 > 0) { tapeFlag1--; }
 	}
+
 	//tapeFlag1; 
 };
 
