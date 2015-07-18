@@ -161,6 +161,13 @@ void dance ()
   }
 }
 
+void reset() {
+  LCD.print("Set both arms");
+  LCD.setCursor(0,1);
+  LCD.print("to lowest position");
+  goFastToAngles(90,0,0);
+}
+
 float angleConv(float baseAngle){
   float newAngle;
   newAngle = baseAngle*180.0/SERVO_RANGE;
