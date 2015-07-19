@@ -79,8 +79,7 @@ float goLinear(int currentStep, int maxSteps) {
   return ((double) currentStep / (double)maxSteps);
 }
 
-<<<<<<< HEAD
-void goSmoothTo(int r, int z, int b, int t)
+void goSmoothTo(float r, float z, int b, int t)
 {	
   int angleIncrement = 5;
 	
@@ -96,23 +95,6 @@ void goSmoothTo(int r, int z, int b, int t)
   int diff2 = a2final - a2;
   int diff3 = a3final - a3;
 	
-=======
-void goSmoothTo(float r, float z, int b, float t)
-{
-
-  int a1final = b;
-  int a2final, a3final;
-  coorMap(r, z, b, a2final, a3final); //sets a2final, a3final
-
-  int a1step = a1;
-  int a2step = a2;
-  int a3step = a3;
-
-  int rDiff = a1final - a1;
-  int zDiff = a2final - a2;
-  int bDiff = a3final - a3;
-
->>>>>>> arm
   //finds the servo that needs to turn the most, the number of degrees will be the number of steps
   int steps = abs(diff1);
   (steps < abs(diff2)) && (steps = abs(diff2)); //abuse && operator
