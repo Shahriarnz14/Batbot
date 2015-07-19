@@ -19,9 +19,9 @@
 #define ELBOW_MAX_ANGLE 180
 #define SHOULDER_MAX_ANGLE 180
 
-double a1;
-double a2;
-double a3;
+int a1;
+int a2;
+int a3;
 
 void coorMap(float r, float z, int baseAngle, int &shoulderAngle, int &elbowAngle)
 {
