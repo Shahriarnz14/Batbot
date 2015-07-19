@@ -1,60 +1,68 @@
 #define PI 3.14159
-#define SERVO_RANGE 240
+#define SERVO_RANGE 229 //do not touch, calibration for new servo
 
-#define BASE_HEIGHT 9.5
-#define SIDE_LENGTH 13.2
-#define FRONT_LENGTH 0
-#define SIDE_HEIGHT 5
-#define DOLL_HEIGHT 14.242
-#define CHASSIS_HEIGHT 10.5
+//origin is determined to be between the two servos
+#define BASE_HEIGHT 9.5 //base of the arm (Will's mulitple layers)
+#define SIDE_LENGTH 13.2 //length from middle to side of the robot
+#define FRONT_LENGTH 0 //length from base of arm to front of robot
+#define SIDE_HEIGHT 5 //height of the side walls of the robot
+#define DOLL_HEIGHT 14.242 
+#define CHASSIS_HEIGHT 10.5 //height from ground to chassis
 
 #define RADIUS_START 20
 #define HEIGHT_START (20)// + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
+#define ELBOW_OFFSET 50 //angle between elbow physical and calculation 0
+#define SHOULDER_OFFSET 10 //angle between shoulder physical and calculation 0
+
+#define ELBOW_MAX_ANGLE 180
+#define SHOULDER_MAX_ANGLE 180
+
 double a1;
 double a2;
 double a3;
 
-void coorMap(float r, float z, float baseAngle, float &shoulderAngle, float &elbowAngle)
+void coorMap(float r, float z, int baseAngle, int &shoulderAngle, int &elbowAngle)
 {
   double barLength = 8.0 * 2.54;
-  //float heightOfBase = 0 + 95.7; // add in height of base
-  //z -= (BASE_HEIGHT + CHASSIS_HEIGHT);
+  z -= (BASE_HEIGHT + CHASSIS_HEIGHT);
 
   double R = sqrt(pow(r, 2) + pow(z, 2));
   double beta = atan(z / r);
   double alpha = acos(R / (2 * barLength));
   double gamma = acos(1 - (pow(R, 2) / (2 * pow(barLength, 2)))) * (180.0 / PI);
 
-  shoulderAngle = (beta + alpha) * 180.0 / PI;
-  elbowAngle = (180.0 - gamma - shoulderAngle) + 18.0; //40 is the offset of elbow, defined 0 is parallel to ground
-  //return true
+  shoulderAngle = (int) (beta + alpha) * 180.0 / PI;
+  elbowAngle = (int) (180.0 - gamma - shoulderAngle);
 }
 
-void goFastTo(float r, float z, float baseAngle)
+void goFastTo(float r, float z, int baseAngle)
 {
-  float shoulderAngle, elbowAngle;
+  int shoulderAngle, elbowAngle;
   coorMap(r, z, baseAngle, shoulderAngle, elbowAngle);
   goFastToAngles(baseAngle, shoulderAngle, elbowAngle);
 }
 
-void goFastToAngles(float baseAngle, float shoulderAngle, float elbowAngle)
+void goFastToAngles(int baseAngle, int shoulderAngle, int elbowAngle)
 {
   if (175. - (shoulderAngle + elbowAngle) < 0) {
     return;
   }
+  if ((shoulderAngle) > SHOULDER_MAX_ANGLE || (elbowAngle + ELBOW_OFFSET) > ELBOW_MAX_ANGLE) {
+    return;
+  }
 
   if (baseAngle != a1) {
-    RCServo0.write(angleConv(baseAngle));
+    RCServo0.write(baseAngle); //no conversion needed as 180 degree servo is used at base
     a1 = baseAngle;
   }
   if (shoulderAngle != a2) {
-    RCServo1.write(angleConv(shoulderAngle));
+    RCServo1.write(angleConv(shoulderAngle - SHOULDER_OFFSET));
     a2 = shoulderAngle;
   }
   if (elbowAngle != a3) {
-    RCServo2.write(angleConv(elbowAngle));
+    RCServo2.write(angleConv(elbowAngle + ELBOW_OFFSET));
     a3 = elbowAngle;
   }
 }
@@ -71,6 +79,7 @@ float goLinear(int currentStep, int maxSteps) {
   return ((double) currentStep / (double)maxSteps);
 }
 
+<<<<<<< HEAD
 void goSmoothTo(int r, int z, int b, int t)
 {	
   int angleIncrement = 5;
@@ -87,6 +96,23 @@ void goSmoothTo(int r, int z, int b, int t)
   int diff2 = a2final - a2;
   int diff3 = a3final - a3;
 	
+=======
+void goSmoothTo(float r, float z, int b, float t)
+{
+
+  int a1final = b;
+  int a2final, a3final;
+  coorMap(r, z, b, a2final, a3final); //sets a2final, a3final
+
+  int a1step = a1;
+  int a2step = a2;
+  int a3step = a3;
+
+  int rDiff = a1final - a1;
+  int zDiff = a2final - a2;
+  int bDiff = a3final - a3;
+
+>>>>>>> arm
   //finds the servo that needs to turn the most, the number of degrees will be the number of steps
   int steps = abs(diff1);
   (steps < abs(diff2)) && (steps = abs(diff2)); //abuse && operator
@@ -158,8 +184,15 @@ void dance ()
   }
 }
 
-float angleConv(float baseAngle){
-  float newAngle;
+void reset() {
+  LCD.print("Set both arms");
+  LCD.setCursor(0,1);
+  LCD.print("to lowest position");
+  goFastToAngles(90,0,0);
+}
+
+int angleConv(int baseAngle){
+  int newAngle;
   newAngle = baseAngle*180.0/SERVO_RANGE;
   return newAngle;
 }
