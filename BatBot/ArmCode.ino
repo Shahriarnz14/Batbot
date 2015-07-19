@@ -71,52 +71,58 @@ float goLinear(int currentStep, int maxSteps) {
   return ((double) currentStep / (double)maxSteps);
 }
 
-void goSmoothTo(float r, float z, float b, float t)
-{
-
+void goSmoothTo(int r, int z, int b, int t)
+{	
+  int angleIncrement = 5;
+	
   float a1final = b;
   float a2final, a3final;
   coorMap(r, z, b, a2final, a3final); //sets a2final, a3final
-
-  float a1step = a1;
-  float a2step = a2;
-  float a3step = a3;
-
-  float rDiff = a1final - a1;
-  float zDiff = a2final - a2;
-  float bDiff = a3final - a3;
-
+	
+  int a1step = a1;
+  int a2step = a2;
+  int a3step = a3;
+	
+  int diff1 = a1final - a1;
+  int diff2 = a2final - a2;
+  int diff3 = a3final - a3;
+	
   //finds the servo that needs to turn the most, the number of degrees will be the number of steps
-  int steps = abs(rDiff);
-  (steps < abs(zDiff)) && (steps = abs(zDiff)); //abuse && statements
-  (steps < abs(bDiff)) && (steps = abs(bDiff));
-
-  bool rDone, zDone, bDone;
-
+  int steps = abs(diff1);
+  (steps < abs(diff2)) && (steps = abs(diff2)); //abuse && operator
+  (steps < abs(diff3)) && (steps = abs(diff3));
+  steps = steps/angleIncrement;
+  int done1, done2, done3;
+	
   do {
-    rDiff = a1final - a1step;
-    zDiff = a2final - a2step;
-    bDiff = a3final - a3step;
-
-    rDone = abs(rDiff) <= 0.5;  //less than half the maximum change
-    zDone = abs(zDiff) <= 0.5;
-    bDone = abs(bDiff) <= 0.5;
-
-    if (!rDone) {
-      a1step += rDiff / abs(rDiff);
+    diff1 = a1final - a1step;
+    diff2 = a2final - a2step;
+    diff3 = a3final - a3step;
+		
+    done1 = abs(diff1) < angleIncrement;  //less than half the maximum change
+    done2 = abs(diff2) < angleIncrement;
+    done3 = abs(diff3) < angleIncrement;
+  
+    if (!done1) {
+      a1step += angleIncrement*(diff1 / abs(diff1));
     }
-    if (!zDone) {
-      a2step += zDiff / abs(zDiff);
+    if (!done2) {
+      a2step += angleIncrement*(diff2 / abs(diff2));
     }
-    if (!bDone) {
-      a3step += bDiff / abs(bDiff);
+    if (!done3) {
+      a3step += angleIncrement*(diff3 / abs(diff3));
     }
-
-    goFastToAngles(a1step, a2step, a3step);
-    delay(t / steps);
-
-  } while (!rDone || !zDone || !bDone);
+		
+    if (!done1 || !done2 || !done3){
+      goFastToAngles(a1step, a2step, a3step);
+      delay(t / steps);
+    }
+		
+  } while (!done1 || !done2 || !done3);
+	
+  goFastToAngles(a1final,a2final,a3final); //in case it was stopped a little too early
 }
+
 
 void startPosition() {
   goFastTo(RADIUS_START, HEIGHT_START, BASE_START);
