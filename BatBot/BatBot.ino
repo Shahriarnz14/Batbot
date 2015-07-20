@@ -13,6 +13,7 @@
 volatile uint16_t leftCount = 0;
 volatile uint16_t rightCount = 0;
 
+/* Stop Button: Resets Wheel Encoder Values */
 ISR(INT0_vect) 
 { 
 	LCD.clear(); LCD.home(); LCD.print("All Motors Stopping:"); 
@@ -24,6 +25,7 @@ ISR(INT0_vect)
 		LCD.setCursor(0, 1); 
 		LCD.print(leftCount); LCD.print("  ");  LCD.print(rightCount);
 	}
+	enableExternalInterrupt(INT1, FALLING); enableExternalInterrupt(INT2, FALLING);
 };
 
 /* Wheel Encoders*/
