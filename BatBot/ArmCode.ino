@@ -10,10 +10,10 @@
 #define CHASSIS_HEIGHT 10.5 //height from ground to chassis
 
 #define RADIUS_START 20
-#define HEIGHT_START (20)// + BASE_HEIGHT + CHASSIS_HEIGHT)
+#define HEIGHT_START (20 + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
-#define ELBOW_OFFSET 50 //angle between elbow physical and calculation 0
+#define ELBOW_OFFSET 40 //angle between elbow physical and calculation 0
 #define SHOULDER_OFFSET 10 //angle between shoulder physical and calculation 0
 
 #define ELBOW_MAX_ANGLE 180
@@ -53,18 +53,18 @@ void goFastToAngles(int baseAngle, int shoulderAngle, int elbowAngle)
     return;
   }
 
-  if (baseAngle != a1) {
+  //if (baseAngle != a1) {
     RCServo0.write(baseAngle); //no conversion needed as 180 degree servo is used at base
     a1 = baseAngle;
-  }
-  if (shoulderAngle != a2) {
+  //}
+  //if (shoulderAngle != a2) {
     RCServo1.write(angleConv(shoulderAngle - SHOULDER_OFFSET));
     a2 = shoulderAngle;
-  }
-  if (elbowAngle != a3) {
+  //}
+  //if (elbowAngle != a3) {
     RCServo2.write(angleConv(elbowAngle + ELBOW_OFFSET));
     a3 = elbowAngle;
-  }
+  //}
 }
 
 float tween(int currentStep, int maxSteps)
