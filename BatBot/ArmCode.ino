@@ -33,7 +33,7 @@ void coorMap(float r, float z, int baseAngle, int &shoulderAngle, int &elbowAngl
   double alpha = acos(R / (2 * barLength));
   double gamma = acos(1 - (pow(R, 2) / (2 * pow(barLength, 2)))) * (180.0 / PI);
 
-  shoulderAngle = (int) (beta + alpha) * 180.0 / PI;
+  shoulderAngle = (int) ((beta + alpha) * 180.0 / PI);
   elbowAngle = (int) (180.0 - gamma - shoulderAngle);
 }
 
