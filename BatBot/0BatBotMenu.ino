@@ -21,14 +21,39 @@ public:
 uint16_t MenuItem::MenuItemCount = 0;
 /* Add the menu items here */
 MenuItem Speed = MenuItem("Speed");
+MenuItem IRSpeed = MenuItem("IR-Speed");
+MenuItem SpeedBack = MenuItem("Speed-Back");
+MenuItem SpeetTestMode = MenuItem("Speed Test");
+
 MenuItem ProportionalGain = MenuItem("kP");
 MenuItem DerivativeGain = MenuItem("kD");
-MenuItem SpeetTestMode = MenuItem("Speed Test");
 MenuItem IntegralGain = MenuItem("kI");
 MenuItem IntegralMax = MenuItem("I_MAX");
-MenuItem Threshold = MenuItem("Threshold");
-MenuItem IRSpeed = MenuItem("IR-Speed");
-MenuItem menuItems[] = { Speed, ProportionalGain, DerivativeGain, SpeetTestMode, IntegralGain, IntegralMax, Threshold, IRSpeed };
+
+MenuItem LeftThreshold = MenuItem("L-Threshold");
+MenuItem RightThreshold = MenuItem("R-Threshold");
+MenuItem SideThreshold = MenuItem("S-Threshold");
+
+MenuItem menuItems[] = { Speed, IRSpeed, SpeedBack, SpeetTestMode,
+							ProportionalGain, DerivativeGain, IntegralGain, IntegralMax,
+								LeftThreshold, RightThreshold, SideThreshold };
+
+/* Index Definition To Be Used */
+#define SPEED0_IDX 0
+#define IR_SPEED_IDX 1
+#define SPEEDB_IDX 2
+#define SPEED_TEST_IDX 3
+
+#define KP_IDX 4
+#define KD_IDX 5
+#define KI_IDX 6
+#define IMAX_IDX 7
+
+#define L_THRESH_IDX 8
+#define R_THRESH_IDX 9
+#define S_THRESH_IDX 10
+
+
 
 uint16_t MenuSetup()
 {
@@ -43,7 +68,7 @@ uint16_t MenuSetup()
 		{
 			delay(100);
 			if (startbutton()) return Menu();
-			return menuItems[3].Value;
+			return menuItems[SPEED_TEST_IDX].Value;
 		}
 	}
 }
@@ -93,7 +118,7 @@ uint16_t Menu()
 				LCD.clear(); LCD.home();
 				LCD.print("BatBot Menu: 'Good Bye!'");
 				delay(1000);
-				return menuItems[3].Value;
+				return menuItems[SPEED_TEST_IDX].Value;
 			}
 		}
 	}

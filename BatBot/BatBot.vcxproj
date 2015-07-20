@@ -69,16 +69,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="0BatBotMenu.ino" />
-    <None Include="0PinsAndConstants.ino" />
-    <None Include="1DebuggingMode.ino" />
-    <None Include="ArmCode.ino" />
+    <None Include="0BatBotMenu.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="0PinsAndConstants.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="1DebuggingMode.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="ArmCode.ino">
+      <FileType>CppCode</FileType>
+    </None>
     <None Include="BatBot.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="IRfollowing.ino" />
-    <None Include="SamplePark.ino" />
-    <None Include="TapeFollowing.ino" />
+    <None Include="IRfollowing.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="SamplePark.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="TapeFollowFunctionality.ino" />
+    <None Include="TapeFollowExtras.ino" />
+    <None Include="TapeFollowing.ino">
+      <FileType>CppCode</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.BatBot.vsarduino.h" />

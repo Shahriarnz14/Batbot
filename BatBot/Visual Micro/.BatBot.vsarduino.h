@@ -89,5 +89,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <ArmCode.ino>
 #include <IRfollowing.ino>
 #include <SamplePark.ino>
+#include <TapeFollowExtras.ino>
+#include <TapeFollowFunctionality.ino>
 #include <TapeFollowing.ino>
 #endif

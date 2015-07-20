@@ -9,10 +9,30 @@
 #include <LiquidCrystal.h>  
 #include <avr/EEPROM.h>
 
-volatile int16_t tapeFlag1 = 4;
 
-ISR(INT0_vect) { LCD.clear(); LCD.home(); LCD.print("All Motors Stopping:"); motor.stop_all(); while (!(startbutton())){ LCD.setCursor(0, 1); LCD.print(digitalRead(1)); } };
-ISR(INT1_vect)
+volatile uint16_t leftCount = 0;
+volatile uint16_t rightCount = 0;
+
+ISR(INT0_vect) 
+{ 
+	LCD.clear(); LCD.home(); LCD.print("All Motors Stopping:"); 
+	motor.stop_all(); 
+	disableExternalInterrupt(INT1); disableExternalInterrupt(INT2);
+	leftCount = 0; rightCount = 0; 
+	while (!(startbutton()))
+	{ 
+		LCD.setCursor(0, 1); 
+		LCD.print(leftCount); LCD.print("  ");  LCD.print(rightCount);
+	}
+};
+
+/* Wheel Encoders*/
+ISR(INT1_vect) { leftCount++;  };
+ISR(INT2_vect) { rightCount++; };
+
+
+volatile int16_t tapeFlag1 = 4;
+/*ISR(INT1_vect)
 {
 	bool pressed = 1;
 	for (int i = 0; i < 5; i++)
@@ -57,61 +77,40 @@ void enableExternalInterrupt(unsigned int INTX, unsigned int mode)
 	sei();
 }
 
+void disableExternalInterrupt(unsigned int INTX)
+{
+	if (INTX > 3) return;
+	EIMSK &= ~(1 << INTX);
+}
+
 
 void setup()
 {
-#include <phys253setup.txt>
+	#include <phys253setup.txt>
 	Serial.begin(9600);
+	
 	LCD.clear(); LCD.home();
 	LCD.print("BatBot says HI!");
+	delay(1000);
 
 	// Menu Setup
 	uint16_t debugMode = MenuSetup();
-	LCD.clear();
-	LCD.home();				LCD.print("BATBot");
-	LCD.setCursor(0, 1);	LCD.print("AShLAW Product");
+	LCD.clear(); LCD.home();	LCD.print("BATBot");
+	LCD.setCursor(0, 1);		LCD.print("AShLAW Product");
 	delay(1000);
-	enableExternalInterrupt(INT0, FALLING);
-	enableExternalInterrupt(INT1, FALLING);
-	if (debugMode > 0) speedTest();
+
+	enableExternalInterrupt(INT0, FALLING); // Stop Button
+	enableExternalInterrupt(INT1, FALLING); // Left  Wheel Encoder
+	enableExternalInterrupt(INT2, FALLING); // Right Wheel Encoder
+
+	if ((debugMode > 0) && (debugMode < 100)) { speedTest(); }
+	else if (debugMode >= 100) { tapeFollowTest(); }
 }
 
 void loop()
 {
-	tapeFollow2QRD(&tapeFlag1);
-	while (tapeFlag1 <= 0) { LCD.clear(); LCD.home(); LCD.print("GoodBye!!"); };
+	tapeFollow1();
+
 	//IRfollow();
-	//park();
-	//int val = analogRead(0);
-	//Serial.println(val);
-	//LCD.clear(); LCD.home(); LCD.print(val);
-	//delay(500);
+	//tapeFollow2();
 }
-
-//int target_angle = 180;
-//unsigned long last_update_time_ms = 0;
-//unsigned int servo_update_delay_ms = 10;
-
-/*
-void move_servo_to_target()
-{
-RCServo0.write(target_angle);
-last_update_time_ms = millis();
-}
-
-void loop()
-{
-if (millis() > last_update_time_ms + servo_update_delay_ms)
-{
-if (target_angle)
-{
-target_angle--;
-move_servo_to_target();
-}
-}
-
-
-}
-
-
-*/
