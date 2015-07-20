@@ -83,8 +83,8 @@ void goSmoothTo(float r, float z, int b, int t)
 {	
   int angleIncrement = 5;
 	
-  float a1final = b;
-  float a2final, a3final;
+  int a1final = b;
+  int a2final, a3final;
   coorMap(r, z, b, a2final, a3final); //sets a2final, a3final
 	
   int a1step = a1;
