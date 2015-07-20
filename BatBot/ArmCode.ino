@@ -54,15 +54,15 @@ void goFastToAngles(int baseAngle, int shoulderAngle, int elbowAngle)
   }
 
   //if (baseAngle != a1) {
-    RCServo0.write(baseAngle); //no conversion needed as 180 degree servo is used at base
+    s0.write(baseAngle); //no conversion needed as 180 degree servo is used at base
     a1 = baseAngle;
   //}
   //if (shoulderAngle != a2) {
-    RCServo1.write(angleConv(shoulderAngle - SHOULDER_OFFSET));
+    s1.write(angleConv(shoulderAngle - SHOULDER_OFFSET));
     a2 = shoulderAngle;
   //}
   //if (elbowAngle != a3) {
-    RCServo2.write(angleConv(elbowAngle + ELBOW_OFFSET));
+    s2.write(angleConv(elbowAngle + ELBOW_OFFSET));
     a3 = elbowAngle;
   //}
 }

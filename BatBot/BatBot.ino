@@ -8,6 +8,15 @@
 #include <phys253.h>          
 #include <LiquidCrystal.h>  
 #include <avr/EEPROM.h>
+#include <Servo.h>
+
+#define SERVO_0_PIN (35)
+#define SERVO_1_PIN (31)
+#define SERVO_2_PIN (34)
+
+Servo s0;
+Servo s1;
+Servo s2;
 
 volatile int16_t tapeFlag1 = 4;
 
@@ -52,8 +61,20 @@ void enableExternalInterrupt(unsigned int INTX, unsigned int mode)
 
 void setup()
 {
-#include <phys253setup.txt>
-	Serial.begin(9600);
+        portMode(0, INPUT) ;      //   ***** from 253 setup file
+        portMode(1, INPUT) ;      //   ***** from 253 setup file
+        
+        pinMode(SERVO_0_PIN, OUTPUT);
+        pinMode(SERVO_1_PIN, OUTPUT);
+        pinMode(SERVO_2_PIN, OUTPUT);
+        
+        s0.attach(SERVO_0_PIN);
+        s1.attach(SERVO_1_PIN);
+        s2.attach(SERVO_2_PIN);
+  
+        LCD.begin(16,2) ;
+  
+  	Serial.begin(9600);
 	LCD.clear(); LCD.home();
 	LCD.print("BatBot says HI!");
 
