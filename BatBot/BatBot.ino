@@ -8,10 +8,18 @@
 #include <phys253.h>          
 #include <LiquidCrystal.h>  
 #include <avr/EEPROM.h>
+#include <Servo.h>
+
+#define SERVO_0_PIN (35)
+#define SERVO_1_PIN (31)
+#define SERVO_2_PIN (34)
+
+Servo s0;
+Servo s1;
+Servo s2;
 
 volatile uint16_t leftCount = 0;
 volatile uint16_t rightCount = 0;
-volatile bool reset = 0;
 
 /* Stop Button: Resets Wheel Encoder Values */
 ISR(INT0_vect) 
@@ -22,8 +30,6 @@ ISR(INT0_vect)
 	LCD.setCursor(0, 1);
 	//LCD.print(digitalRead(1)); LCD.print("  "); LCD.print(digitalRead(2));
 	leftCount = 0; rightCount = 0; 
-	reset = 1;
-	while (!(startbutton()))
 	{ 
 		LCD.setCursor(0, 1);
 		LCD.print(analogRead(0)); // LEFT QRD
@@ -166,8 +172,16 @@ void disableExternalInterrupt(unsigned int INTX)
 void setup()
 {
 	#include <phys253setup.txt>
-	//Serial.begin(9600);
+	Serial.begin(9600);
 	
+	pinMode(SERVO_0_PIN, OUTPUT);
+	pinMode(SERVO_1_PIN, OUTPUT);
+	pinMode(SERVO_2_PIN, OUTPUT);
+	
+	s0.attach(SERVO_0_PIN);
+	s1.attach(SERVO_1_PIN);
+	s2.attach(SERVO_2_PIN);
+
 	LCD.clear(); LCD.home();
 	LCD.print("BatBot says HI!");
 	delay(1000);
@@ -192,7 +206,6 @@ void setup()
 
 void loop()
 {
-	reset = 0;
 	tapeFollow1();
 	IRfollow1();
 	goBack();
