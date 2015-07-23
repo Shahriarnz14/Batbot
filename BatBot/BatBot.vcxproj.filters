@@ -25,6 +25,7 @@
     <None Include="ArmCode.ino" />
     <None Include="TapeFollowExtras.ino" />
     <None Include="TapeFollowFunctionality.ino" />
+    <None Include="DriveIntermediateSteps.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.BatBot.vsarduino.h">

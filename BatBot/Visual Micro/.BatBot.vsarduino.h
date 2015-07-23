@@ -87,6 +87,7 @@ extern "C" void __cxa_pure_virtual() {;}
 #include <0PinsAndConstants.ino>
 #include <1DebuggingMode.ino>
 #include <ArmCode.ino>
+#include <DriveIntermediateSteps.ino>
 #include <IRfollowing.ino>
 #include <SamplePark.ino>
 #include <TapeFollowExtras.ino>

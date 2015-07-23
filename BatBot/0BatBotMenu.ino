@@ -117,7 +117,7 @@ uint16_t Menu()
 			{
 				LCD.clear(); LCD.home();
 				LCD.print("BatBot Menu: 'Good Bye!'");
-				delay(1000);
+				delay(100);
 				return menuItems[SPEED_TEST_IDX].Value;
 			}
 		}

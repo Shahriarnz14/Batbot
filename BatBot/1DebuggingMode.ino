@@ -3,26 +3,45 @@
  */
 void speedTest()
 {
-	int16_t c;
+	uint16_t leftWheel = 0;
+	uint16_t rightWheel = 0;
 
 	while (true)
 	{
 		int16_t speed = knob(6);
 		int16_t positive = knob(7);
 
+		//if (digitalRead(LEFT_ENCODER_WHEEL) > THRESH_ENC_L) { leftWheel++; }
+		//if (digitalRead(RIGHT_ENCODER_WHEEL) > THRESH_ENC_R) { rightWheel++; }
+		
 		if (positive == 0) speed = -speed;
 
 		motor.speed(LEFT_MOTOR, speed);
 		motor.speed(RIGHT_MOTOR, speed);
 
+		LCD.home(); //LCD.print(leftWheel); LCD.print("  "); LCD.print(rightWheel); LCD.print("         ");
+		//LCD.print(digitalRead(7)); 
+		LCD.print(leftCount);
+		LCD.print("      ");
+		LCD.setCursor(0, 1);
+		LCD.print(rightCount);
+		LCD.print("      ");
 		
 		if (c == 100)
 		{
 			LCD.clear(); LCD.home();
-			LCD.print(leftCount); LCD.print("  "); LCD.print(rightCount);
+			//LCD.print(leftWheel); LCD.print("  "); LCD.print(rightWheel); LCD.print("  "); //
+			//LCD.print(digitalRead(7)); 
+			LCD.print(leftCount);
+			LCD.print("      ");
+			//LCD.print((int)((float)leftCount / 8.0));
+			// LCD.print(analogRead(5));
 			
 			LCD.setCursor(0, 1);
-			LCD.print("L:"); LCD.print(speed); LCD.print(" R:"); LCD.print(speed);
+			//LCD.print("L:"); LCD.print(speed); LCD.print(" R:"); LCD.print(speed);
+			LCD.print(rightCount);
+			LCD.print("      ");
+			//LCD.print((int)((float)rightCount / 8.0));
 			c = 0;
 		}
 
@@ -37,7 +56,6 @@ void tapeFollowTest()
 	int16_t recerr = 0;
 	int16_t q = 0;
 	int16_t m = 0;
-	int16_t c;
 
 	uint16_t kP = knob(6) / 1023.0 * 200;
 	uint16_t kD = knob(7) / 1023.0 * 200;

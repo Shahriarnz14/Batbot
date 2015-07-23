@@ -84,14 +84,19 @@
     <None Include="BatBot.ino">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="DriveIntermediateSteps.ino" />
     <None Include="IRfollowing.ino">
       <FileType>CppCode</FileType>
     </None>
     <None Include="SamplePark.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="TapeFollowFunctionality.ino" />
-    <None Include="TapeFollowExtras.ino" />
+    <None Include="TapeFollowFunctionality.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="TapeFollowExtras.ino">
+      <FileType>CppCode</FileType>
+    </None>
     <None Include="TapeFollowing.ino">
       <FileType>CppCode</FileType>
     </None>
