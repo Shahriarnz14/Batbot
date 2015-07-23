@@ -23,6 +23,7 @@
     <None Include="0PinsAndConstants.ino" />
     <None Include="1DebuggingMode.ino" />
     <None Include="Arm0.ino" />
+    <None Include="ArmCode.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Visual Micro\.BatBot.vsarduino.h">
