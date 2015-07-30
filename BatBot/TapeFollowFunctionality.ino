@@ -1,4 +1,4 @@
-void tapeFollowTime(int16_t speed, uint16_t timeMS)
+void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD)
 {
 	// PID Variables
 	int16_t lerr = 0;
@@ -6,7 +6,8 @@ void tapeFollowTime(int16_t speed, uint16_t timeMS)
 	int16_t q = 0;
 	int16_t m = 0;
 
-	uint16_t startTime = millis();
+	long startTime = millis();
+
 	//LCD.clear(); LCD.home(); LCD.print(startTime);
 	//delay(2000);
 
@@ -62,14 +63,14 @@ void tapeFollowTime(int16_t speed, uint16_t timeMS)
 		else if (-integ > I_MAX) integ = -I_MAX;
 		*/
 
-		int16_t p = kp*error;
-		int16_t d = (int16_t)((float)kd*(float)(error - recerr) / (float)(q + m));
+		int16_t p = kP*error;
+		int16_t d = (int16_t)((float)kD*(float)(error - recerr) / (float)(q + m));
 		int16_t con = p + d;// +integ;
 
 		if (c == 100)
 		{
-			//kp = knob(6) / 1023.0 * 200;
-			//kd = knob(7) / 1023.0 * 200;
+			//kP = knob(6) / 1023.0 * 200;
+			//kD = knob(7) / 1023.0 * 200;
 
 			LCD.clear();
 
@@ -77,7 +78,7 @@ void tapeFollowTime(int16_t speed, uint16_t timeMS)
 			LCD.print(left); LCD.print("  "); LCD.print(right); LCD.print(" "); LCD.print(side);
 
 			LCD.setCursor(0, 1);
-			LCD.print(leftCount); LCD.print("  "); LCD.print(rightCount);
+			LCD.print(kP); LCD.print("  "); LCD.print(kD);
 
 			c = 0;
 		}
@@ -97,20 +98,18 @@ void tapeFollowTime(int16_t speed, uint16_t timeMS)
 
 
 	/* Measure Ending Part (To Be Removed) */
-	/*motor.stop_all();
+	motor.stop_all();
 	LCD.clear(); LCD.home();
-	while (!reset)
+	/*while (true)
 	{
-	LCD.home(); LCD.print("End of Counting");
-	LCD.setCursor(0, 1);
-
-	LCD.print(leftCount); LCD.print("  "); LCD.print(rightCount);
-	}*/
+		LCD.home(); LCD.print("End of TIME");
+	}
+	*/
 
 
 }
 
-void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount)
+void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount, int16_t kP, int16_t kD)
 {
 	// PID Following Variables
 	int16_t lerr = 0;
@@ -130,7 +129,7 @@ void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount)
 
 		if (side > THRESH_S)
 		{
-			delay(80);
+			delay(100);
 			if (side > THRESH_S) { count++; }
 		}
 
@@ -168,8 +167,8 @@ void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount)
 		else if (-integ > I_MAX) integ = -I_MAX;
 		*/
 
-		int16_t p = kp*error;
-		int16_t d = (int16_t)((float)kd*(float)(error - recerr) / (float)(q + m));
+		int16_t p = kP*error;
+		int16_t d = (int16_t)((float)kD*(float)(error - recerr) / (float)(q + m));
 		int16_t con = p + d;// +integ;
 
 		if (c == 100)
@@ -182,7 +181,7 @@ void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount)
 			LCD.print(left); LCD.print("  "); LCD.print(right); LCD.print(" "); LCD.print(side);
 
 			LCD.setCursor(0, 1);
-			LCD.print("KP:"); LCD.print(kp); LCD.print(" KD:"); LCD.print(kd); LCD.print("  "); LCD.print(count);
+			LCD.print("KP:"); LCD.print(kP); LCD.print(" KD:"); LCD.print(kD); LCD.print("  "); LCD.print(count);
 
 			c = 0;
 		}
@@ -200,8 +199,8 @@ void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount)
 	}
 
 	/* Measuring Stopping at the right place : To Be Removed */
-	/*motor.stop_all();
-	LCD.clear(); LCD.home();
+	
+	/*LCD.clear(); LCD.home();
 	while (true)
 	{
 		LCD.home();

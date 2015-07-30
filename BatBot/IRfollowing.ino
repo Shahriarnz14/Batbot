@@ -1,5 +1,5 @@
 int16_t diff;
-void IRfollow1()
+void IRfollow1(long timeMS )
 {
 	// PID Variables
 	int16_t lerr = 0;
@@ -7,16 +7,16 @@ void IRfollow1()
 	int16_t q = 0;
 	int16_t m = 0;
 
-	uint16_t kP = 30;// knob(6);
-	uint16_t kD = 58;// knob(7);
+	///uint16_t kP = 30;// knob(6);
+	//uint16_t kD = 58;// knob(7);
 
 	//int thresh = 400;
 	uint16_t leftQrd = analogRead(LEFT_QRD);
 	uint16_t rightQrd = analogRead(RIGHT_QRD);
 
-	uint16_t startTime = millis();
+	long startTime = millis();
 	
-	while (millis() - startTime < 3500)
+	while (millis() - startTime < timeMS)
 	// while (true)
 	{
 		// variables
@@ -27,6 +27,11 @@ void IRfollow1()
 		rightQrd = analogRead(RIGHT_QRD);
 
 		//if ((leftQrd > THRESH_L) || (rightQrd > THRESH_R)) { break; }
+
+		if (millis() - startTime < 600);
+		{
+			pushWire();
+		}
 
 		// Knobs
 		int16_t error = 0;
@@ -47,8 +52,8 @@ void IRfollow1()
 			m = 1;
 		}
 
-		int16_t p = kP*error;
-		int16_t d = (int16_t)((float)kD*(float)(error - recerr) / (float)(q + m));
+		int16_t p = kP_IR*error;
+		int16_t d = (int16_t)((float)kD_IR*(float)(error - recerr) / (float)(q + m));
 		int16_t con = p + d;
 
 		if (c == 100)
@@ -61,7 +66,7 @@ void IRfollow1()
 
 			LCD.setCursor(0, 1);
 			//LCD.print(leftQrd); LCD.print(" "); LCD.print(rightQrd);
-			LCD.print("KP:"); LCD.print(kP); LCD.print(" KD:"); LCD.print(kD);
+			LCD.print("KP:"); LCD.print(kP_IR); LCD.print(" KD:"); LCD.print(kD_IR);
 
 			c = 0;
 		}
@@ -83,7 +88,7 @@ void IRfollow1()
 
 	motor.stop_all();
 
-	delay(2000);
+	delay(1000);
 	///* Testing Tape Finding */
 	//while (true)
 	//{
@@ -100,8 +105,8 @@ void IRfollow2()
 	int16_t q = 0;
 	int16_t m = 0;
 
-	uint16_t kP = 30;// knob(6);
-	uint16_t kD = 58;// knob(7);
+	//uint16_t kP = 30;// knob(6);
+	//uint16_t kD = 58;// knob(7);
 
 	//int thresh = 400;
 	uint16_t leftQrd = analogRead(LEFT_QRD);
@@ -118,7 +123,14 @@ void IRfollow2()
 		leftQrd = analogRead(LEFT_QRD);
 		rightQrd = analogRead(RIGHT_QRD);
 
-		if ((leftQrd > THRESH_L) || (rightQrd > THRESH_R)) { break; }
+		if ((leftQrd > THRESH_L) || (rightQrd > THRESH_R)) 
+		{
+			delay(100);
+			if ((leftQrd > THRESH_L) || (rightQrd > THRESH_R))
+			{
+				break;
+			}
+		}
 
 		// Knobs
 		int16_t error = 0;
@@ -139,8 +151,8 @@ void IRfollow2()
 			m = 1;
 		}
 
-		int16_t p = kP*error;
-		int16_t d = (int16_t)((float)kD*(float)(error - recerr) / (float)(q + m));
+		int16_t p = kP_IR*error;
+		int16_t d = (int16_t)((float)kD_IR*(float)(error - recerr) / (float)(q + m));
 		int16_t con = p + d;
 
 		if (c == 100)
@@ -153,7 +165,7 @@ void IRfollow2()
 
 			LCD.setCursor(0, 1);
 			//LCD.print(leftQrd); LCD.print(" "); LCD.print(rightQrd);
-			LCD.print("KP:"); LCD.print(kP); LCD.print(" KD:"); LCD.print(kD);
+			LCD.print("KP:"); LCD.print(kP_IR); LCD.print(" KD:"); LCD.print(kD_IR);
 
 			c = 0;
 		}
@@ -177,9 +189,9 @@ void IRfollow2()
 
 	delay(2000);
 	///* Testing Tape Finding */
-	while (true)
+	/*while (true)
 	{
 		LCD.home(); LCD.print("End of IR");
 		LCD.print(leftQrd); LCD.print("  "); LCD.print(rightQrd);
-	}
+	}*/
 }

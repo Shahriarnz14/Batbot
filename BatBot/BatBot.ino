@@ -30,11 +30,16 @@ ISR(INT0_vect)
 	LCD.setCursor(0, 1);
 	//LCD.print(digitalRead(1)); LCD.print("  "); LCD.print(digitalRead(2));
 	leftCount = 0; rightCount = 0; 
+	while (!(startbutton()))
 	{ 
+		LCD.clear(); LCD.home();
+		LCD.print(analogRead(0)); /* LEFT QRD  */ LCD.print("   ");
+		LCD.print(analogRead(1)); /* RIGHT QRD */ LCD.print("   ");
+		LCD.print(analogRead(2)); /* SIDE QRD */ LCD.print("   ");
+
 		LCD.setCursor(0, 1);
-		LCD.print(analogRead(0)); // LEFT QRD
-		LCD.print("    ");
-		LCD.print(analogRead(1));
+		LCD.print(analogRead(3)); /* LEFT IR  */ LCD.print("     ");
+		LCD.print(analogRead(4)); /* RIGHT IR */ LCD.print("     ");
 		//LCD.setCursor(0, 1); 
 		//LCD.print(leftCount); LCD.print("  ");  LCD.print(rightCount);
 		// LCD.print(analogRead(4)); LCD.print("  "); LCD.print(analogRead(5));
@@ -177,10 +182,7 @@ void setup()
 	pinMode(SERVO_0_PIN, OUTPUT);
 	pinMode(SERVO_1_PIN, OUTPUT);
 	pinMode(SERVO_2_PIN, OUTPUT);
-	
-	s0.attach(SERVO_0_PIN);
-	s1.attach(SERVO_1_PIN);
-	s2.attach(SERVO_2_PIN);
+
 
 	LCD.clear(); LCD.home();
 	LCD.print("BatBot says HI!");
@@ -188,6 +190,11 @@ void setup()
 	pinMode(8, OUTPUT);
 	pinMode(9, OUTPUT);
 
+	// Arm Initialization
+	startPosition();
+	s0.attach(SERVO_0_PIN);
+	s1.attach(SERVO_1_PIN);
+	s2.attach(SERVO_2_PIN);
 
 	// Menu Setup
 	uint16_t debugMode = MenuSetup();
@@ -197,24 +204,42 @@ void setup()
 
 	enableExternalInterrupt(INT0, FALLING); // Stop Button
 	//enableExternalInterrupt(INT1, RISING); // Left  Wheel Encoder
-	enableExternalInterrupt(INT2, RISING); // Right Wheel Encoder
+	//enableExternalInterrupt(INT2, RISING); // Right Wheel Encoder
 
-	if (debugMode > 0) { speedTest(); }
+	if (debugMode > 0) { speedTest1(); }
+	//if (debugMode > 0) { speedTest2(); }
 	//if ((debugMode > 0) && (debugMode < 100)) { speedTest(); }
 	//else if (debugMode >= 100) { tapeFollowTest(); }
 }
 
+// Arm
+//void loop()
+//{
+//	petPickUp();
+//}
+
+// Drive System
 void loop()
 {
 	tapeFollow1();
-	IRfollow1();
+	fixation(600, 500, 2000);
+	IRfollow1(4000);
+
+//	/*pickUpNum6();
+//	while (!stopbutton())
+//	{
+//
+//	}*/
+
 	goBack();
 	turn();
 	IRfollow2();
 	tapeFollow2();
-	//LCD.clear(); LCD.home();
-	//LCD.print(x);
-	//delay(100);
+	LCD.clear(); LCD.home();
+	LCD.print("DONE");
+	while (true) {}
+//	//LCD.print(x);
+//	//delay(100);
 	//IRfollow();
 	//tapeFollow2();
 }

@@ -34,9 +34,16 @@ MenuItem LeftThreshold = MenuItem("L-Threshold");
 MenuItem RightThreshold = MenuItem("R-Threshold");
 MenuItem SideThreshold = MenuItem("S-Threshold");
 
+MenuItem ProportionalGainBack = MenuItem("kP_Back");
+MenuItem DerivativeGainBack = MenuItem("kD_Back");
+
+MenuItem PetNum = MenuItem("Pet-Num");
+
 MenuItem menuItems[] = { Speed, IRSpeed, SpeedBack, SpeetTestMode,
 							ProportionalGain, DerivativeGain, IntegralGain, IntegralMax,
-								LeftThreshold, RightThreshold, SideThreshold };
+								LeftThreshold, RightThreshold, SideThreshold,
+									ProportionalGainBack, DerivativeGainBack,
+										PetNum };
 
 /* Index Definition To Be Used */
 #define SPEED0_IDX 0
@@ -53,7 +60,10 @@ MenuItem menuItems[] = { Speed, IRSpeed, SpeedBack, SpeetTestMode,
 #define R_THRESH_IDX 9
 #define S_THRESH_IDX 10
 
+#define KPB_IDX 11
+#define KDB_IDX 12
 
+#define PET_NUM_IDX 12
 
 uint16_t MenuSetup()
 {

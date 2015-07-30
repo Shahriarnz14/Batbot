@@ -26,6 +26,9 @@ uint16_t kd = menuItems[KD_IDX].Value; //82
 uint16_t kI = menuItems[KI_IDX].Value;
 uint16_t I_MAX = menuItems[IMAX_IDX].Value;
 
+uint16_t kp_B = menuItems[KPB_IDX].Value; //30
+uint16_t kd_B = menuItems[KDB_IDX].Value; //33
+
 //const uint16_t THRESH_ENC_L = 300;
 //const uint16_t THRESH_ENC_R = 300;
 
@@ -44,4 +47,12 @@ int16_t c = 0;
 const uint16_t MAX_COUNT = 200;
 
 // IR Constants
-const int16_t diffMaxIR = 1;
+const int16_t diffMaxIR = 6;
+
+// Pets
+uint16_t petNum = menuItems[PET_NUM_IDX].Value / 100;
+
+
+// KP & KD IR
+int16_t kP_IR = 30;
+int16_t kD_IR = 58;

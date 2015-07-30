@@ -8,8 +8,8 @@
 #define DOLL_HEIGHT 15.24
 #define CHASSIS_HEIGHT 10.5 //height from ground to chassis
 
-#define RADIUS_START 9.6 //20
-#define HEIGHT_START (18.6) //20 + BASE_HEIGHT + CHASSIS_HEIGHT)
+#define RADIUS_START 10 //20
+#define HEIGHT_START (20) // + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
 #define ELBOW_OFFSET 28 //angle between elbow physical and calculation 0
@@ -80,7 +80,7 @@ float goLinear(int currentStep, int maxSteps) {
 
 void goSmoothTo(float r, float z, int b, int t)
 {
-	int angleIncrement = 5;
+	int angleIncrement = 1;
 
 	int a1final = b;
 	int a2final, a3final;
@@ -167,7 +167,7 @@ int angleConv(int baseAngle){
 	return newAngle;
 }
 
-void positionFor5(){
+void pickUpNum5(){
 	goSmoothTo(21.4, 20, 90, 1000);
 	goSmoothTo(21.4, 34.4, 0, 1000);
 }
@@ -182,16 +182,25 @@ void store5(){
 	startPosition();
 }
 
+void pushWire()
+{
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 2000);
+}
+
 void pickUpNum6(){
 	goSmoothTo(20.7, 40.1, 90, 500);
-	goSmoothTo(35.3, 22, 87, 500);
-	goSmoothTo(35.3, 21.7, 90, 500);
-	goFastTo(35.3, 21.7, 60);
-	goFastTo(35.3, 21.7, 120);
-	goSmoothTo(35.3, 21.7, 60, 500);
-	goSmoothTo(32, 25, 90, 500);
-	goSmoothTo(29.6, 35.6, 90, 500);
-	goSmoothTo(17.4, 39.4, 90, 500);
+	goSmoothTo(35.3, 30, 87, 500);
+	goSmoothTo(35.3, 30, 90, 500);
+	goSmoothTo(35.3, 30, 75, 500);
+	goSmoothTo(35.3, 30, 105, 500);
+	goSmoothTo(35.3, 30, 75, 500);
+	goSmoothTo(33, 28, 75, 500);
+	goSmoothTo(33, 28, 105, 500);
+	goSmoothTo(33, 28, 75, 500);
+	goSmoothTo(33, 28, 105, 500);
+	goSmoothTo(32, 30, 90, 500);
+	goSmoothTo(29.6, 36, 90, 500);
+	goSmoothTo(17.4, 40, 90, 500);
 	goSmoothTo(13.9, 30.6, 134, 500);
 }
 
@@ -227,4 +236,13 @@ void pickUpNum2(){
 	goSmoothTo(8, 20, 144, 500);
 	goFastTo(8, 20, 13);
 	startPosition();
+}
+
+void petPickUp()
+{
+	if (petNum == 2) { pickUpNum2(); }
+	else if (petNum == 3) { pickUpNum3(); }
+	else if (petNum == 4) { pushWire(); }
+	else if (petNum == 5) { pickUpNum5(); }
+	else if (petNum == 6) { pickUpNum6(); }
 }

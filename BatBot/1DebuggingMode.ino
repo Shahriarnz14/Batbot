@@ -1,7 +1,7 @@
 /*
 	Testing Wheels Movement. And Wheel Encoder Values
  */
-void speedTest()
+void speedTest1()
 {
 	uint16_t leftWheel = 0;
 	uint16_t rightWheel = 0;
@@ -21,25 +21,68 @@ void speedTest()
 
 		LCD.home(); //LCD.print(leftWheel); LCD.print("  "); LCD.print(rightWheel); LCD.print("         ");
 		//LCD.print(digitalRead(7)); 
-		LCD.print(leftCount);
+		LCD.print(analogRead(LEFT_QRD));
 		LCD.print("      ");
-		LCD.setCursor(0, 1);
-		LCD.print(rightCount);
+		LCD.print(analogRead(RIGHT_QRD));
 		LCD.print("      ");
 		
 		if (c == 100)
 		{
 			LCD.clear(); LCD.home();
-			//LCD.print(leftWheel); LCD.print("  "); LCD.print(rightWheel); LCD.print("  "); //
+			LCD.print(analogRead(LEFT_QRD)); LCD.print("      "); LCD.print(analogRead(RIGHT_QRD)); LCD.print("      "); //
 			//LCD.print(digitalRead(7)); 
-			LCD.print(leftCount);
-			LCD.print("      ");
+			//LCD.print(leftCount);
 			//LCD.print((int)((float)leftCount / 8.0));
 			// LCD.print(analogRead(5));
 			
 			LCD.setCursor(0, 1);
-			//LCD.print("L:"); LCD.print(speed); LCD.print(" R:"); LCD.print(speed);
-			LCD.print(rightCount);
+			LCD.print("L:"); LCD.print(speed); LCD.print(" R:"); LCD.print(speed);
+			//LCD.print(rightCount);
+			LCD.print("      ");
+			//LCD.print((int)((float)rightCount / 8.0));
+			c = 0;
+		}
+
+		c++;
+	}
+}
+void speedTest2()
+{
+	uint16_t leftWheel = 0;
+	uint16_t rightWheel = 0;
+
+	while (true)
+	{
+		int16_t speed = knob(6);
+		int16_t positive = knob(7);
+
+		//if (digitalRead(LEFT_ENCODER_WHEEL) > THRESH_ENC_L) { leftWheel++; }
+		//if (digitalRead(RIGHT_ENCODER_WHEEL) > THRESH_ENC_R) { rightWheel++; }
+
+		if (positive == 0) speed = -speed;
+
+		motor.speed(LEFT_MOTOR, speed);
+		motor.speed(RIGHT_MOTOR, speed);
+
+		LCD.home(); //LCD.print(leftWheel); LCD.print("  "); LCD.print(rightWheel); LCD.print("         ");
+		//LCD.print(digitalRead(7)); 
+		LCD.print(analogRead(3));
+		LCD.print("      ");
+		LCD.print(analogRead(4));
+		LCD.print("      ");
+
+		if (c == 100)
+		{
+			LCD.clear(); LCD.home();
+			LCD.print(analogRead(3)); LCD.print("      "); LCD.print(analogRead(4)); LCD.print("      "); //
+			//LCD.print(digitalRead(7)); 
+			//LCD.print(leftCount);
+			//LCD.print((int)((float)leftCount / 8.0));
+			// LCD.print(analogRead(5));
+
+			LCD.setCursor(0, 1);
+			LCD.print("L:"); LCD.print(speed); LCD.print(" R:"); LCD.print(speed);
+			//LCD.print(rightCount);
 			LCD.print("      ");
 			//LCD.print((int)((float)rightCount / 8.0));
 			c = 0;
