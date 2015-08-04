@@ -17,7 +17,11 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	while (millis() - startTime < timeMS)
 	{
 
-		//'average' noise removal
+		uint16_t left = analogRead(LEFT_QRD);
+		uint16_t right = analogRead(RIGHT_QRD);
+
+		//AVERAGE NOISE REMOVAL *FEATURE 1*
+		/*
 		uint16_t sum_left = 0;
 		uint16_t sum_right = 0;
 
@@ -30,6 +34,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 
 		uint16_t left = sum_left/ticks;
 		uint16_t right = sum_right/ticks;
+		*/
 
 		uint16_t side = analogRead(SIDE_QRD);
 
@@ -122,7 +127,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 			LCD.print(left); LCD.print("  "); LCD.print(right); LCD.print(" "); LCD.print(side);
 
 			LCD.setCursor(0, 1);
-			LCD.print(kP); LCD.print("  "); LCD.print(kD); LCD.print("  "); LCD.print(e2-s2);
+			LCD.print(kP); LCD.print("  "); LCD.print(kD); //LCD.print("  "); LCD.print(e2-s2);
 
 			c = 0;
 		}
