@@ -1,7 +1,7 @@
-void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD)
+void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t &lerr)
 {
 	// PID Variables
-	int16_t lerr = 0;
+	
 	int16_t recerr = 0;
 	int16_t q = 0;
 	int16_t m = 0;
@@ -109,10 +109,9 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD)
 
 }
 
-void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount, int16_t kP, int16_t kD)
+void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount, int16_t kP, int16_t kD, int16_t &lerr)
 {
 	// PID Following Variables
-	int16_t lerr = 0;
 	int16_t recerr = 0;
 	int16_t q = 0;
 	int16_t m = 0;

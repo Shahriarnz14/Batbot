@@ -1,15 +1,15 @@
 #define SERVO_RANGE 229 //do not touch, calibration for new servo
 
 //origin is determined to be between the two servos
-#define BASE_HEIGHT 9.5 //base of the arm (Will's mulitple layers)
+#define BASE_HEIGHT 5 //base of the arm (Will's mulitple layers)
 #define SIDE_LENGTH 12.5 //length from middle to side of the robot
 #define FRONT_LENGTH 12.2 //length from base of arm to front of robot
 #define SIDE_HEIGHT 5 //height of the side walls of the robot
 #define DOLL_HEIGHT 15.24
-#define CHASSIS_HEIGHT 10.5 //height from ground to chassis
+#define CHASSIS_HEIGHT 5 //height from ground to chassis
 
-#define RADIUS_START 10 //20
-#define HEIGHT_START (20) // + BASE_HEIGHT + CHASSIS_HEIGHT)
+#define RADIUS_START 7 //15 //20
+#define HEIGHT_START 15 //(20) // + BASE_HEIGHT + CHASSIS_HEIGHT)
 #define BASE_START 90
 
 #define ELBOW_OFFSET 28 //angle between elbow physical and calculation 0
@@ -51,9 +51,12 @@ void goFastToAngles(int baseAngle, int shoulderAngle, int elbowAngle)
 	if ((shoulderAngle) > SHOULDER_MAX_ANGLE || (elbowAngle + ELBOW_OFFSET) > ELBOW_MAX_ANGLE) {
 		return;
 	}
+	if ((baseAngle) > 170){
+		return;
+	}
 
 	//if (baseAngle != a1) {
-	s0.write(baseAngle); //no conversion needed as 180 degree servo is used at base
+	s0.write(baseAngle + 10); //no conversion needed as 180 degree servo is used at base
 	a1 = baseAngle;
 	//}
 	//if (shoulderAngle != a2) {
@@ -64,18 +67,6 @@ void goFastToAngles(int baseAngle, int shoulderAngle, int elbowAngle)
 	s2.write(angleConv(elbowAngle + ELBOW_OFFSET));
 	a3 = elbowAngle;
 	//}
-}
-
-float tween(int currentStep, int maxSteps)
-{
-	float t = currentStep / (maxSteps / 2.0);
-	if (t < 1) return (t * t * t) / 2;
-	else t -= 2;
-	return (t * t * t + 2) / 2;
-}
-
-float goLinear(int currentStep, int maxSteps) {
-	return ((double)currentStep / (double)maxSteps);
 }
 
 void goSmoothTo(float r, float z, int b, int t)
@@ -132,26 +123,7 @@ void goSmoothTo(float r, float z, int b, int t)
 
 
 void startPosition() {
-	goSmoothTo(RADIUS_START, HEIGHT_START, BASE_START, 500);
-}
-
-void dance()
-{
-	int i = 0;
-	while (true) {
-		if (i % 2 == 0) {
-			goFastTo(15, 40, 180 - 30 * abs(i - 6));
-		}
-		else {
-			goFastTo(20, 45, 180 - 30 * abs(i - 6));
-		}
-		delay(950); //Pat and Mat
-
-		i++;
-		if (i = 12) {
-			i = 0;
-		}
-	}
+	goSmoothTo(RADIUS_START, HEIGHT_START, BASE_START, 1000);
 }
 
 void reset() {
@@ -167,82 +139,87 @@ int angleConv(int baseAngle){
 	return newAngle;
 }
 
+void pushWire(){
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 1000);
+}
+
 void pickUpNum5(){
-	goSmoothTo(21.4, 20, 90, 1000);
-	goSmoothTo(21.4, 34.4, 0, 1000);
+	goSmoothTo(18, 15, 90, 1500);
+	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 90, 700);
+	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 0, 700);
 }
 
 void store5(){
-	goSmoothTo(21.4, 34.4, 90, 500);
-	goSmoothTo(16, 31, 90, 500);
-	goSmoothTo(9, 27, 37, 500);
-	goSmoothTo(9, 23.1, 37, 500);
-	goSmoothTo(9, 21.8, 37, 500);
-	goFastTo(9, 21.8, 180);
+	goSmoothTo(21.4, 24.4, 90, 500);
+	goSmoothTo(16, 21, 90, 500);
+	goSmoothTo(9, 17, 37, 500);
+	goSmoothTo(9, 13.1, 37, 500);
+	goSmoothTo(9, 11.8, 37, 500);
+	goFastTo(9, 11.8, 180);
 	startPosition();
 }
 
-void pushWire()
-{
-	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 2000);
-}
-
 void pickUpNum6(){
-	goSmoothTo(20.7, 40.1, 90, 500);
-	goSmoothTo(35.3, 30, 87, 500);
-	goSmoothTo(35.3, 30, 90, 500);
-	goSmoothTo(35.3, 30, 75, 500);
-	goSmoothTo(35.3, 30, 105, 500);
-	goSmoothTo(35.3, 30, 75, 500);
-	goSmoothTo(33, 28, 75, 500);
-	goSmoothTo(33, 28, 105, 500);
-	goSmoothTo(33, 28, 75, 500);
-	goSmoothTo(33, 28, 105, 500);
-	goSmoothTo(32, 30, 90, 500);
-	goSmoothTo(29.6, 36, 90, 500);
-	goSmoothTo(17.4, 40, 90, 500);
-	goSmoothTo(13.9, 30.6, 134, 500);
+	float r = 33;
+	float z = 18;
+
+	goSmoothTo(20.7, 30, 90, 1000);
+
+	for (int i = 0; i < 2; i++)
+	{
+		goSmoothTo(r, z, 90, 500);
+		goSmoothTo(r, z, 110, 500);
+		goSmoothTo(r, z, 70, 500);
+		goSmoothTo(r, z, 110, 500);
+		goSmoothTo(r, z + 5 + i, 90, 500);
+		z = z - 2;
+	}
+
+	goSmoothTo(29.6, 26, 90, 500);
+	goSmoothTo(17.4, 40, 90, 1000);
+	goSmoothTo(10, 25, 90, 500);
 }
 
 void dropOff6(){
-	goSmoothTo(13.6, 34.4, 140, 500);
-	goFastTo(19.9, 34.4, 0);
+	goSmoothTo(13.6, 24.4, 140, 500);
+	goFastTo(19.9, 24.4, 0);
 	startPosition();
 }
 
 void pickUpNum3(){
-	goSmoothTo(13.5, 34.4, 98, 500);
-	goSmoothTo(20.3, 25.6, 165, 500);
-	goSmoothTo(20.3, 22.7, 159, 500);
-	goSmoothTo(21.5, 19.3, 163, 500);
-	goSmoothTo(21.5, 34.4, 163, 500);
-	goSmoothTo(13.6, 34.4, 113, 500);
-	goFastTo(19.9, 34.4, 0);
+	goSmoothTo(13.5, 24.4, 98, 500);
+	goSmoothTo(20.3, 15.6, 165, 500);
+	goSmoothTo(20.3, 12.7, 159, 500);
+	goSmoothTo(21.5, 9.3, 163, 500);
+	goSmoothTo(21.5, 24.4, 163, 500);
+	goSmoothTo(13.6, 24.4, 113, 500);
+	goFastTo(19.9, 24.4, 0);
 	startPosition();
 }
 
 void pickUpNum2(){
-	goSmoothTo(17.5, 32.5, 180, 500);
-	goSmoothTo(16.7, 21.1, 180, 500);
-	goSmoothTo(18, 23.2, 176, 500);
-	goSmoothTo(18, 18.3, 176, 500);
-	goSmoothTo(24.1, 18.3, 180, 500);
-	goSmoothTo(20, 18.3, 176, 500);
-	goSmoothTo(20, 29.3, 176, 500);
-	goSmoothTo(13.8, 35, 158, 500);
-	goSmoothTo(7.5, 35, 169, 500);
-	goSmoothTo(7.5, 25, 153, 500);
-	goSmoothTo(8, 25, 144, 500);
-	goSmoothTo(8, 20, 144, 500);
-	goFastTo(8, 20, 13);
+	goSmoothTo(17.5, 22.5, 180, 500);
+	goSmoothTo(16.7, 11.1, 180, 500);
+	goSmoothTo(18, 13.2, 176, 500);
+	goSmoothTo(18, 8.3, 176, 500);
+	goSmoothTo(24.1, 8.3, 180, 500);
+	goSmoothTo(20, 8.3, 176, 500);
+	goSmoothTo(20, 19.3, 176, 500);
+	goSmoothTo(13.8, 25, 158, 500);
+	goSmoothTo(7.5, 25, 169, 500);
+	goSmoothTo(7.5, 15, 153, 500);
+	goSmoothTo(8, 15, 144, 500);
+	goSmoothTo(8, 10, 144, 500);
+	goFastTo(8, 10, 13);
 	startPosition();
 }
 
-void petPickUp()
+void petPickUp(int i)
 {
-	if (petNum == 2) { pickUpNum2(); }
-	else if (petNum == 3) { pickUpNum3(); }
-	else if (petNum == 4) { pushWire(); }
-	else if (petNum == 5) { pickUpNum5(); }
-	else if (petNum == 6) { pickUpNum6(); }
+	if (i == 2) { pickUpNum2(); }
+	else if (i == 3) { pickUpNum3(); }
+	else if (i == 4) { pushWire(); }
+	else if (i == 5) { pickUpNum5(); }
+	else if (i == 6) { pickUpNum6(); }
+	else if (i == 7) { store5(); }
 }

@@ -23,6 +23,7 @@ void fixation(long timeMS_1, long timeMS_2, long timeMS_3)
 		motor.speed(RIGHT_MOTOR, speedRight);
 	}
 	motor.stop_all();
+	pickUpNum5();
 	delay(500);
 
 	// Forward Long
@@ -52,10 +53,23 @@ void goBack()
 	delay(2000);
 }
 
-void turn()
+void goForward(long time)
 {
 	uint16_t startTime = millis();
-	while (millis() - startTime < 1400)
+	while (millis() - startTime < time)
+	{
+		motor.speed(LEFT_MOTOR, speedIR);
+		motor.speed(RIGHT_MOTOR, speedIR);
+	}
+
+	motor.stop_all();
+	delay(2000);
+}
+
+void turn(long timeMS)
+{
+	long startTime = millis();
+	while (millis() - startTime < timeMS)
 	{
 		motor.speed(LEFT_MOTOR, speedIR);
 		motor.speed(RIGHT_MOTOR, -speedIR);

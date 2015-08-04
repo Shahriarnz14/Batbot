@@ -222,8 +222,11 @@ void setup()
 void loop()
 {
 	tapeFollow1();
-	fixation(600, 500, 2000);
-	IRfollow1(4000);
+	fixation(450, 700, 2000);
+	//pickUpNum5();
+	goForward(2500);
+	pickUpNum6();
+	//IRfollow1(4000);
 
 //	/*pickUpNum6();
 //	while (!stopbutton())
@@ -232,7 +235,7 @@ void loop()
 //	}*/
 
 	goBack();
-	turn();
+	turn(1450);
 	IRfollow2();
 	tapeFollow2();
 	LCD.clear(); LCD.home();

@@ -63,7 +63,7 @@ MenuItem menuItems[] = { Speed, IRSpeed, SpeedBack, SpeetTestMode,
 #define KPB_IDX 11
 #define KDB_IDX 12
 
-#define PET_NUM_IDX 12
+#define PET_NUM_IDX 13
 
 uint16_t MenuSetup()
 {
@@ -115,6 +115,12 @@ uint16_t Menu()
 			{
 				menuItems[menuIndex].Value = knob(7);
 				menuItems[menuIndex].Save();
+
+
+				if (menuIndex == PET_NUM_IDX) {
+					petPickUp(knob(7) / 100);
+				}
+
 				delay(250);
 			}
 		}
