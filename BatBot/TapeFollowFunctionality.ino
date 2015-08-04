@@ -35,6 +35,36 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 
 		int16_t error = 0;
 
+		//THRESHOLD DEADZONE *FEATURE 2*
+
+		/*
+		//these definitions are stupid, but temporary
+		int THRESH_U = THRESH_L;
+		int THRESH_D = THRESH_R;
+
+		if ((left > THRESH_U) && (right > THRESH_U)) error = 0;
+		else if ((left > THRESH_U) && (right < THRESH_D)) error = -1;
+		else if ((left < THRESH_D) && (right > THRESH_U)) error = +1;
+
+		// History for both tapes off the tape
+		else if ((left < THRESH_D) && (right < THRESH_D))
+		{
+			if (millis() - startTime < 6000)
+			{
+				if (lerr > 0) { error = 3; }
+				else error = -3;
+			}
+			else
+			{
+				if (lerr <= 0) { error = -3; }
+				else error = +3;
+			}
+
+		}
+
+		else {continue;} //ignore the result if the values are in the threshold 'deadzone' between upper and lower thresholds
+		*/
+
 		if ((left > THRESH_L) && (right > THRESH_R)) error = 0;
 		if ((left > THRESH_L) && (right < THRESH_R)) error = -1;
 		if ((left < THRESH_L) && (right > THRESH_R)) error = +1;
