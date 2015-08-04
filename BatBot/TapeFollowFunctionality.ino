@@ -6,6 +6,8 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	int16_t q = 0;
 	int16_t m = 0;
 
+	int ticks = 50;
+
 	long startTime = millis();
 
 	//LCD.clear(); LCD.home(); LCD.print(startTime);
@@ -14,9 +16,21 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	//while ((leftCount < MAX_COUNT) || (rightCount < MAX_COUNT))
 	while (millis() - startTime < timeMS)
 	{
-		// variables
-		uint16_t left = analogRead(LEFT_QRD);
-		uint16_t right = analogRead(RIGHT_QRD);
+
+		//'average' noise removal
+		uint16_t sum_left = 0;
+		uint16_t sum_right = 0;
+
+		uint16_t s2 = millis(); //just a debugging feature
+		for (int i=0; i< ticks; i++) {
+			sum_left += analogRead(LEFT_QRD);
+			sum_right += analogRead(RIGHT_QRD);
+		}
+		uint16_t e2 = millis(); //just a debugging feature
+
+		uint16_t left = sum_left/ticks;
+		uint16_t right = sum_right/ticks;
+
 		uint16_t side = analogRead(SIDE_QRD);
 
 		int16_t error = 0;
@@ -78,7 +92,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 			LCD.print(left); LCD.print("  "); LCD.print(right); LCD.print(" "); LCD.print(side);
 
 			LCD.setCursor(0, 1);
-			LCD.print(kP); LCD.print("  "); LCD.print(kD);
+			LCD.print(kP); LCD.print("  "); LCD.print(kD); LCD.print("  "); LCD.print(e2-s2);
 
 			c = 0;
 		}
