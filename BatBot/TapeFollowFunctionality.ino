@@ -6,7 +6,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	int16_t q = 0;
 	int16_t m = 0;
 
-	int ticks = 50;
+	int TICKS = 50;
 
 	long startTime = millis();
 
@@ -26,14 +26,14 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 		uint16_t sum_right = 0;
 
 		uint16_t s2 = millis(); //just a debugging feature
-		for (int i=0; i< ticks; i++) {
+		for (int i=0; i< TICKS; i++) {
 			sum_left += analogRead(LEFT_QRD);
 			sum_right += analogRead(RIGHT_QRD);
 		}
 		uint16_t e2 = millis(); //just a debugging feature
 
-		uint16_t left = sum_left/ticks;
-		uint16_t right = sum_right/ticks;
+		uint16_t left = sum_left/TICKS;
+		uint16_t right = sum_right/TICKS;
 		*/
 
 		uint16_t side = analogRead(SIDE_QRD);
