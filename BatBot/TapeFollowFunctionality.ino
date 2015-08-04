@@ -6,6 +6,8 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	int16_t q = 0;
 	int16_t m = 0;
 
+	int TICKS = 50;
+
 	long startTime = millis();
 
 	//LCD.clear(); LCD.home(); LCD.print(startTime);
@@ -14,12 +16,59 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	//while ((leftCount < MAX_COUNT) || (rightCount < MAX_COUNT))
 	while (millis() - startTime < timeMS)
 	{
-		// variables
+
 		uint16_t left = analogRead(LEFT_QRD);
 		uint16_t right = analogRead(RIGHT_QRD);
+
+		//AVERAGE NOISE REMOVAL *FEATURE 1*
+		/*
+		uint16_t sum_left = 0;
+		uint16_t sum_right = 0;
+
+		uint16_t s2 = millis(); //just a debugging feature
+		for (int i=0; i< TICKS; i++) {
+			sum_left += analogRead(LEFT_QRD);
+			sum_right += analogRead(RIGHT_QRD);
+		}
+		uint16_t e2 = millis(); //just a debugging feature
+
+		uint16_t left = sum_left/TICKS;
+		uint16_t right = sum_right/TICKS;
+		*/
+
 		uint16_t side = analogRead(SIDE_QRD);
 
 		int16_t error = 0;
+
+		//THRESHOLD DEADZONE *FEATURE 2*
+
+		/*
+		//these definitions are stupid, but temporary
+		int THRESH_U = THRESH_L;
+		int THRESH_D = THRESH_R;
+
+		if ((left > THRESH_U) && (right > THRESH_U)) error = 0;
+		else if ((left > THRESH_U) && (right < THRESH_D)) error = -1;
+		else if ((left < THRESH_D) && (right > THRESH_U)) error = +1;
+
+		// History for both tapes off the tape
+		else if ((left < THRESH_D) && (right < THRESH_D))
+		{
+			if (millis() - startTime < 6000)
+			{
+				if (lerr > 0) { error = 3; }
+				else error = -3;
+			}
+			else
+			{
+				if (lerr <= 0) { error = -3; }
+				else error = +3;
+			}
+
+		}
+
+		else {continue;} //ignore the result if the values are in the threshold 'deadzone' between upper and lower thresholds
+		*/
 
 		if ((left > THRESH_L) && (right > THRESH_R)) error = 0;
 		if ((left > THRESH_L) && (right < THRESH_R)) error = -1;
@@ -78,7 +127,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 			LCD.print(left); LCD.print("  "); LCD.print(right); LCD.print(" "); LCD.print(side);
 
 			LCD.setCursor(0, 1);
-			LCD.print(kP); LCD.print("  "); LCD.print(kD);
+			LCD.print(kP); LCD.print("  "); LCD.print(kD); //LCD.print("  "); LCD.print(e2-s2);
 
 			c = 0;
 		}
