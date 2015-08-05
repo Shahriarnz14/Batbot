@@ -221,10 +221,13 @@ void setup()
 // Drive System
 void loop()
 {
+	//IRfollow1(2147483647);
 	tapeFollow1();
-	fixation(450, 700, 2000);
+	fixation(0, 350, 500, 430);
 	//pickUpNum5();
-	goForward(2500);
+	goForward(2000);
+	store5();
+	IRfollow1(3500);
 	pickUpNum6();
 	//IRfollow1(4000);
 
@@ -234,9 +237,10 @@ void loop()
 //
 //	}*/
 
-	goBack();
-	turn(1450);
-	IRfollow2();
+	goBack(1500, 144);
+	turn(1640);
+	IRfollow1(3000);
+	//IRfollow2();
 	tapeFollow2();
 	LCD.clear(); LCD.home();
 	LCD.print("DONE");

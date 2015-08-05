@@ -47,7 +47,7 @@ int16_t c = 0;
 const uint16_t MAX_COUNT = 200;
 
 // IR Constants
-const int16_t diffMaxIR = 6;
+const int16_t diffMaxIR = 4;
 
 // Pets
 uint16_t petNum = menuItems[PET_NUM_IDX].Value / 100;

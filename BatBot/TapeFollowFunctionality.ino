@@ -6,7 +6,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	int16_t q = 0;
 	int16_t m = 0;
 
-	int TICKS = 50;
+	int TICKS = 40;
 
 	long startTime = millis();
 
@@ -17,24 +17,24 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 	while (millis() - startTime < timeMS)
 	{
 
-		uint16_t left = analogRead(LEFT_QRD);
-		uint16_t right = analogRead(RIGHT_QRD);
+		//uint16_t left = analogRead(LEFT_QRD);
+		//uint16_t right = analogRead(RIGHT_QRD);
 
 		//AVERAGE NOISE REMOVAL *FEATURE 1*
-		/*
+		
 		uint16_t sum_left = 0;
 		uint16_t sum_right = 0;
 
-		uint16_t s2 = millis(); //just a debugging feature
+		long s2 = micros(); //just a debugging feature
 		for (int i=0; i< TICKS; i++) {
 			sum_left += analogRead(LEFT_QRD);
 			sum_right += analogRead(RIGHT_QRD);
 		}
-		uint16_t e2 = millis(); //just a debugging feature
+		long e2 = micros(); //just a debugging feature
 
 		uint16_t left = sum_left/TICKS;
 		uint16_t right = sum_right/TICKS;
-		*/
+
 
 		uint16_t side = analogRead(SIDE_QRD);
 
@@ -77,7 +77,10 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 		// History for both tapes off the tape
 		if ((left < THRESH_L) && (right < THRESH_R))
 		{
-			if (millis() - startTime < 6000)
+			if (lerr > 0) { error = 3; }
+			else { error = -3; }
+
+			/*if (millis() - startTime < 6000)
 			{
 				if (lerr > 0) { error = 3; }
 				else error = -3;
@@ -86,7 +89,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 			{
 				if (lerr <= 0) { error = -3; }
 				else error = +3;
-			}
+			}*/
 
 		}
 
@@ -127,7 +130,7 @@ void tapeFollowTime(int16_t speed, long timeMS, int16_t kP, int16_t kD, int16_t 
 			LCD.print(left); LCD.print("  "); LCD.print(right); LCD.print(" "); LCD.print(side);
 
 			LCD.setCursor(0, 1);
-			LCD.print(kP); LCD.print("  "); LCD.print(kD); //LCD.print("  "); LCD.print(e2-s2);
+			LCD.print(kP); LCD.print("  "); LCD.print(kD); LCD.print("  "); LCD.print(e2-s2);
 
 			c = 0;
 		}
@@ -165,13 +168,28 @@ void tapeFollowAnalog(uint16_t motorSpeed, uint16_t totalCount, int16_t kP, int1
 	int16_t q = 0;
 	int16_t m = 0;
 	
+	int TICKS = 40;
+
+
 	uint16_t count = 0;
 
 	while (count < totalCount)
 	{
 		// variables
-		uint16_t left = analogRead(LEFT_QRD);
-		uint16_t right = analogRead(RIGHT_QRD);
+
+		uint16_t sum_left = 0;
+		uint16_t sum_right = 0;
+
+		long s2 = micros(); //just a debugging feature
+		for (int i = 0; i< TICKS; i++) {
+			sum_left += analogRead(LEFT_QRD);
+			sum_right += analogRead(RIGHT_QRD);
+		}
+		long e2 = micros(); //just a debugging feature
+
+		uint16_t left = sum_left / TICKS;
+		uint16_t right = sum_right / TICKS;
+
 		uint16_t side = analogRead(SIDE_QRD);
 
 

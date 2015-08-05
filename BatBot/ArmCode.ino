@@ -123,7 +123,7 @@ void goSmoothTo(float r, float z, int b, int t)
 
 
 void startPosition() {
-	goSmoothTo(RADIUS_START, HEIGHT_START, BASE_START, 1000);
+	goSmoothTo(RADIUS_START, HEIGHT_START, BASE_START, 2000);
 }
 
 void reset() {
@@ -150,29 +150,27 @@ void pickUpNum5(){
 }
 
 void store5(){
-	goSmoothTo(21.4, 24.4, 90, 500);
-	goSmoothTo(16, 21, 90, 500);
-	goSmoothTo(9, 17, 37, 500);
-	goSmoothTo(9, 13.1, 37, 500);
-	goSmoothTo(9, 11.8, 37, 500);
-	goFastTo(9, 11.8, 180);
-	startPosition();
+	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 75, 1000);
+	goSmoothTo(10, 18, 65, 1000);
+	goSmoothTo(10, 18, 160, 500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 700);
 }
 
 void pickUpNum6(){
 	float r = 33;
-	float z = 18;
+	float z = 17;
 
 	goSmoothTo(20.7, 30, 90, 1000);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		goSmoothTo(r, z, 90, 500);
-		goSmoothTo(r, z, 110, 500);
-		goSmoothTo(r, z, 70, 500);
-		goSmoothTo(r, z, 110, 500);
+		goSmoothTo(r, z, 60, 500);
+		goSmoothTo(r, z, 100, 500);
+		goSmoothTo(r, z, 60, 500);
 		goSmoothTo(r, z + 5 + i, 90, 500);
-		z = z - 2;
+		z = z - 1;
+		r = r + 0.5;
 	}
 
 	goSmoothTo(29.6, 26, 90, 500);
@@ -181,8 +179,9 @@ void pickUpNum6(){
 }
 
 void dropOff6(){
-	goSmoothTo(13.6, 24.4, 140, 500);
-	goFastTo(19.9, 24.4, 0);
+	goSmoothTo(20, 30, 90, 1000);
+	goSmoothTo(20, 14.4, 140, 1000);
+	goFastTo(13, 14.4, 140);
 	startPosition();
 }
 
@@ -214,12 +213,21 @@ void pickUpNum2(){
 	startPosition();
 }
 
+void throwPet(){
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 1500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 140, 1500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 0, 100);
+	delay(500);
+}
+
 void petPickUp(int i)
 {
-	if (i == 2) { pickUpNum2(); }
+	if (i == 1) { pickUpNum2(); }
+	else if (i == 2) { pickUpNum2(); }
 	else if (i == 3) { pickUpNum3(); }
 	else if (i == 4) { pushWire(); }
 	else if (i == 5) { pickUpNum5(); }
 	else if (i == 6) { pickUpNum6(); }
 	else if (i == 7) { store5(); }
+	else if (i == 8) { throwPet(); }
 }
