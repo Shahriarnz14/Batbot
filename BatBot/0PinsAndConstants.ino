@@ -52,6 +52,7 @@ const int16_t diffMaxIR = 4;
 // Pets
 uint16_t petNum = menuItems[PET_NUM_IDX].Value / 100;
 
+uint16_t trackNum = menuItems[TRACK_NUM_IDX].Value / 100;
 
 // KP & KD IR
 int16_t kP_IR = 30;

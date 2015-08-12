@@ -221,27 +221,77 @@ void setup()
 // Drive System
 void loop()
 {
-	//IRfollow1(2147483647);
-	tapeFollow1();
-	fixation(0, 350, 500, 430);
-	//pickUpNum5();
-	goForward(2000);
-	store5();
-	IRfollow1(3500);
-	pickUpNum6();
-	//IRfollow1(4000);
 
-//	/*pickUpNum6();
-//	while (!stopbutton())
-//	{
-//
-//	}*/
+	bool track;
 
-	goBack(1500, 144);
-	turn(1640);
-	IRfollow1(3000);
-	//IRfollow2();
-	tapeFollow2();
+	delay(500);
+	LCD.clear();
+	LCD.home(); LCD.print("Start = Red (0)");
+	LCD.setCursor(0, 1); LCD.print("Stop = White (1)");
+
+	while (true)
+	{
+		if (startbutton()) // red
+		{
+			delay(100);
+			if (startbutton()) { track = 0;  break; }
+		}
+
+		if (stopbutton()) // white
+		{
+			delay(100);
+			if (stopbutton()) { track = 1; break; }
+		}
+	}
+	LCD.clear(); LCD.home();
+
+
+	if (track == 0)							// red
+	{
+		tapeFollow1();
+
+		fixation(0, 200, 1000, 370, track); //calls pickup 5 second forward was 900 117am //changed 900 to 1200 1:48am //changed 1200 to 1100 3:40am last turn changed to 200 from 430 722am
+		goForward(1200);
+
+		delay(500);
+		store5();
+		delay(500);
+
+		IRfollow1(3700);
+		
+		delay(500);
+		pickUpNum6(track);
+		delay(500);
+
+		goBack(1400, 144);
+		turn(1550); //1550 to 1400 1:51am
+
+		IRfollow1(2000); // 2200 1202am
+		//IRfollow2();
+		tapeFollow2(track);
+	}
+	else									// white
+	{
+		tapeFollow1();
+
+		fixation(0, 350, 900, 470, track); //calls pickup 5 // 400 changed from 350 changed back at 1231 and second forward changegd to 900 118am //changed 900 to 1200 1:48am //to 1000 5:13am back to 900 535am
+
+
+		goForward(1500);
+		store5();
+		IRfollow1(4000);
+		pickUpNum6(track);
+		
+		//IRfollow1(4000);
+		goBack(2000, 144);
+		turn(1400); //change from 1640 to 1400 at 2:17am
+		
+		IRfollow1(2000); //2500 1202am
+		//IRfollow2();
+		tapeFollow2(track);
+	}
+
+	
 	LCD.clear(); LCD.home();
 	LCD.print("DONE");
 	while (true) {}

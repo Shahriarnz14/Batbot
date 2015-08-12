@@ -8,8 +8,8 @@
 #define DOLL_HEIGHT 15.24
 #define CHASSIS_HEIGHT 5 //height from ground to chassis
 
-#define RADIUS_START 7 //15 //20
-#define HEIGHT_START 15 //(20) // + BASE_HEIGHT + CHASSIS_HEIGHT)
+#define RADIUS_START 15 //15 for hook under 7 for hook over
+#define HEIGHT_START 20 // 25 for hook under 15 for hook over
 #define BASE_START 90
 
 #define ELBOW_OFFSET 28 //angle between elbow physical and calculation 0
@@ -140,77 +140,93 @@ int angleConv(int baseAngle){
 }
 
 void pushWire(){
-	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 1000);
+	goSmoothTo(22, 17, 90, 1000);
+	goSmoothTo(15, 17, 90, 1000);
+	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 90, 700);
 }
 
-void pickUpNum5(){
-	goSmoothTo(18, 15, 90, 1500);
-	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 90, 700);
-	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 0, 700);
+void pickUpNum5(bool track)
+{
+	float r = track ? 18 : 14;
+	float z = track ? (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5) : (20 + BASE_HEIGHT + CHASSIS_HEIGHT + 1);
+	//goSmoothTo(r, 15, 90, 1500); changed 1245am
+	goSmoothTo(r, z, 90, 700);
+	goSmoothTo(r, z, 0, 700);
 }
 
 void store5(){
-	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 75, 1000);
-	goSmoothTo(10, 18, 65, 1000);
-	goSmoothTo(10, 18, 160, 500);
-	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 700);
+	goSmoothTo(18, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 65, 1000);
+	goSmoothTo(8, (20 + BASE_HEIGHT + CHASSIS_HEIGHT - 0.5), 65, 1500);
+	goSmoothTo(8, 18, 65, 1500);
+	goFastTo(8, 18, 160);
+	//goSmoothTo(10, 18, 160, 500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 1000);
 }
 
-void pickUpNum6(){
+void pickUpNum6(bool track){
 	float r = 33;
-	float z = 17;
+	float z = track ? 17 : 16; //17 for Giraffe 16 for Penguin
 
 	goSmoothTo(20.7, 30, 90, 1000);
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		goSmoothTo(r, z, 90, 500);
 		goSmoothTo(r, z, 60, 500);
 		goSmoothTo(r, z, 100, 500);
 		goSmoothTo(r, z, 60, 500);
-		goSmoothTo(r, z + 5 + i, 90, 500);
-		z = z - 1;
-		r = r + 0.5;
+		goSmoothTo(r, z + 5 /*+ i*/, 90, 1000); //problem line. Dont make the time 500
+		//z = z - 1;
+		//r = r + 0.5;
 	}
 
 	goSmoothTo(29.6, 26, 90, 500);
 	goSmoothTo(17.4, 40, 90, 1000);
-	goSmoothTo(10, 25, 90, 500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 500); //added 1246am
+	//goSmoothTo(10, 25, 90, 500); changed 1245am
 }
 
-void dropOff6(){
+void dropOffEdge(){
 	goSmoothTo(20, 30, 90, 1000);
-	goSmoothTo(20, 14.4, 140, 1000);
-	goFastTo(13, 14.4, 140);
-	startPosition();
+	goSmoothTo(20, 30, 0, 1000);
+	goSmoothTo(30, 7, 0, 1000);
+	goFastTo(9, 7, 0);
+	goSmoothTo(30, 7, 0, 700);
+	goFastTo(12, 7, 0);
+	delay(500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 500);
 }
 
 void pickUpNum3(){
-	goSmoothTo(13.5, 24.4, 98, 500);
-	goSmoothTo(20.3, 15.6, 165, 500);
-	goSmoothTo(20.3, 12.7, 159, 500);
-	goSmoothTo(21.5, 9.3, 163, 500);
-	goSmoothTo(21.5, 24.4, 163, 500);
-	goSmoothTo(13.6, 24.4, 113, 500);
-	goFastTo(19.9, 24.4, 0);
-	startPosition();
+	goSmoothTo(28, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 120, 1000);
+	goSmoothTo(28, 13, 120, 1000);
+	goSmoothTo(28, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 120, 1000);
+	dropOffEdge();
 }
 
 void pickUpNum2(){
-	goSmoothTo(17.5, 22.5, 180, 500);
-	goSmoothTo(16.7, 11.1, 180, 500);
-	goSmoothTo(18, 13.2, 176, 500);
-	goSmoothTo(18, 8.3, 176, 500);
-	goSmoothTo(24.1, 8.3, 180, 500);
-	goSmoothTo(20, 8.3, 176, 500);
-	goSmoothTo(20, 19.3, 176, 500);
-	goSmoothTo(13.8, 25, 158, 500);
-	goSmoothTo(7.5, 25, 169, 500);
-	goSmoothTo(7.5, 15, 153, 500);
-	goSmoothTo(8, 15, 144, 500);
-	goSmoothTo(8, 10, 144, 500);
-	goFastTo(8, 10, 13);
-	startPosition();
+	goSmoothTo(25, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 120, 1000);
+	goSmoothTo(28, 13, 120, 1000);
+	goSmoothTo(25, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 120, 1000);
+	store2();
+	//goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 1000);
+	//goSmoothTo(10, 25, 90, 1000);
+}
+
+void store2(){
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 120, 1000);
+	goSmoothTo(10, (15 + BASE_HEIGHT + CHASSIS_HEIGHT), 120, 1000);
+	goSmoothTo(10, 18, 120, 1000);
+	goSmoothTo(10, 18, 20, 500);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 700);
+}
+
+void pickUpNum1(){
+	goSmoothTo(25, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 100, 1000);
+	goSmoothTo(28, 13, 100, 1000);
+	goSmoothTo(25, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 100, 1000);
+	goSmoothTo(20, (20 + BASE_HEIGHT + CHASSIS_HEIGHT), 90, 1000);
+	goSmoothTo(10, 25, 90, 1000);
 }
 
 void throwPet(){
@@ -222,12 +238,14 @@ void throwPet(){
 
 void petPickUp(int i)
 {
-	if (i == 1) { pickUpNum2(); }
+	if (i == 1) { pickUpNum1(); }
 	else if (i == 2) { pickUpNum2(); }
 	else if (i == 3) { pickUpNum3(); }
 	else if (i == 4) { pushWire(); }
-	else if (i == 5) { pickUpNum5(); }
-	else if (i == 6) { pickUpNum6(); }
+	else if (i == 5) { pickUpNum5(1); }
+	else if (i == 6) { pickUpNum6(1); }
 	else if (i == 7) { store5(); }
-	else if (i == 8) { throwPet(); }
+	else if (i == 8) { store2(); }
+	else if (i == 9) { throwPet(); }
+	else if (i == 10) { dropOffEdge(); }
 }

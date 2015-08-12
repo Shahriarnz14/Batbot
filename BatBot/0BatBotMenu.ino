@@ -39,11 +39,14 @@ MenuItem DerivativeGainBack = MenuItem("kD_Back");
 
 MenuItem PetNum = MenuItem("Pet-Num");
 
+MenuItem TrackNum = MenuItem("Track-Num");
+
+
 MenuItem menuItems[] = { Speed, IRSpeed, SpeedBack, SpeetTestMode,
 							ProportionalGain, DerivativeGain, IntegralGain, IntegralMax,
 								LeftThreshold, RightThreshold, SideThreshold,
 									ProportionalGainBack, DerivativeGainBack,
-										PetNum };
+										PetNum, TrackNum };
 
 /* Index Definition To Be Used */
 #define SPEED0_IDX 0
@@ -64,6 +67,9 @@ MenuItem menuItems[] = { Speed, IRSpeed, SpeedBack, SpeetTestMode,
 #define KDB_IDX 12
 
 #define PET_NUM_IDX 13
+
+#define TRACK_NUM_IDX 14
+
 
 uint16_t MenuSetup()
 {

@@ -28,10 +28,10 @@ void IRfollow1(long timeMS )
 
 		//if ((leftQrd > THRESH_L) || (rightQrd > THRESH_R)) { break; }
 
-		if (millis() - startTime < 600);
+		/*if (millis() - startTime < 600);
 		{
 			pushWire();
-		}
+		}*/
 
 		// Knobs
 		int16_t error = 0;
@@ -88,7 +88,7 @@ void IRfollow1(long timeMS )
 
 	motor.stop_all();
 
-	delay(1000);
+	//delay(1000);
 	///* Testing Tape Finding */
 	//while (true)
 	//{
